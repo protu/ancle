@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><ORDER version="1.0" xml:lang="en"><!--This is another comment with special char CHAR--><HEADER><X_ORDER_ID>0000053535</X_ORDER_ID><CUSTOMER_ID>1010</CUSTOMER_ID><NAME_1>Muller</NAME_1><NAME_2>lalala</NAME_2></HEADER><ENTRIES><ENTRY><ARTICLE>&lt;Test&gt;</ARTICLE><ENTRY_NO>10</ENTRY_NO></ENTRY><ENTRY><ARTICLE>&lt;Test 2&gt;</ARTICLE><ENTRY_NO>20</ENTRY_NO></ENTRY></ENTRIES><FOOTER><TEXT>This is a text.</TEXT></FOOTER></ORDER></soapenv:Envelope>

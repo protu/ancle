@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nbi="urn:www.acslite.com/nbi:1.4">
+  <SOAP-ENV:Body>
+    <nbi:SearchDevicesResponse>
+      <PaginationDetails>
+        <RecordStart>0</RecordStart>
+        <RecordCount>4</RecordCount>
+        <TotalRecords>4</TotalRecords>
+      </PaginationDetails>
+      <DeviceDetailsList SOAP-ENV:arrayType="tns:DeviceDetailsStruct[4]">
+        <DeviceDetailsStruct>
+          <OUI>00D050</OUI>
+          <ProductClass>Innbox V51 Home Gateway AnnexB</ProductClass>
+          <SerialNumber>646EEA0093C5</SerialNumber>
+          <Description>dario@snifko - 6661400 - BSA_HH_IPTV</Description>
+          <CommlogEnabled>false</CommlogEnabled>
+          <CreatedDT>2014-03-05T09:03:57Z</CreatedDT>
+          <FirstContactedDT>2014-03-05T09:03:57Z</FirstContactedDT>
+          <LastContactedDT>2014-05-25T13:45:32Z</LastContactedDT>
+        </DeviceDetailsStruct>
+        <DeviceDetailsStruct>
+          <OUI>00D050</OUI>
+          <ProductClass>Innbox V51 Home Gateway AnnexB</ProductClass>
+          <SerialNumber>646EEA00990E</SerialNumber>
+          <Description>dario@snifko - 6661400 - BSA_HH_IPTV</Description>
+          <CommlogEnabled>true</CommlogEnabled>
+          <CreatedDT>2013-10-30T10:18:57Z</CreatedDT>
+          <FirstContactedDT>2013-10-30T10:18:57Z</FirstContactedDT>
+          <LastContactedDT>2014-06-09T06:46:35Z</LastContactedDT>
+        </DeviceDetailsStruct>
+        <DeviceDetailsStruct>
+          <OUI>00D050</OUI>
+          <ProductClass>Innbox V51 Home Gateway AnnexB</ProductClass>
+          <SerialNumber>646EEA009BCE</SerialNumber>
+          <Description>dario@snifko - 6661400 - BSA_HH_IPTV</Description>
+          <CommlogEnabled>false</CommlogEnabled>
+          <CreatedDT>2014-05-30T08:03:26Z</CreatedDT>
+          <FirstContactedDT>2014-05-30T08:03:26Z</FirstContactedDT>
+          <LastContactedDT>2014-05-30T09:11:41Z</LastContactedDT>
+        </DeviceDetailsStruct>
+        <DeviceDetailsStruct>
+          <OUI>00D050</OUI>
+          <ProductClass>Innbox V51 Home Gateway AnnexB</ProductClass>
+          <SerialNumber>646EEA045E6B</SerialNumber>
+          <Description>dario@snifko - 6661400 - BSA_HH_IPTV</Description>
+          <CommlogEnabled>false</CommlogEnabled>
+          <CreatedDT>2014-05-08T07:10:17Z</CreatedDT>
+          <FirstContactedDT>2014-05-08T07:10:17Z</FirstContactedDT>
+          <LastContactedDT>2014-06-30T12:04:55Z</LastContactedDT>
+        </DeviceDetailsStruct>
+      </DeviceDetailsList>
+    </nbi:SearchDevicesResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
