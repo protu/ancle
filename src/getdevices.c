@@ -65,7 +65,6 @@ xmlDocPtr prepareResponse(char *response)
 }
 
 
-
 int getdevices(char * productClass, char * serialNumber)
 {
 
@@ -94,7 +93,7 @@ int getdevices(char * productClass, char * serialNumber)
 	DevicePtr dev = malloc(sizeof(*productClass) + sizeof(*serialNumber));
 	dev->productclass = productClass;
 
-	char *request = soapenv(dev);
+	char *request = soapreq(dev);
 	struct MemoryStruct response;
 	response.memory = malloc(1);
 	response.size=0;

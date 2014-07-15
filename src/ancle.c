@@ -71,7 +71,7 @@ int main (int argc, char **argv)
 				return 0;
 			case 'h':
 			    print_help();
-		        break;
+		        return 0;
 			case 'R':
 				action = 'R';
 				break;

@@ -34,6 +34,6 @@ typedef Device *DevicePtr;
 
 int getdevices(char *productClass, char *serialNumber);
 int callCurl(char *request, struct MemoryStruct *response);
-char *soapenv(DevicePtr dev);
+char *soapreq(DevicePtr dev);
 
 #endif

@@ -11,7 +11,7 @@ int main()
 		fprintf(stderr, "Malloc failed at dev\n");
 
 	dev->productclass = productClass;
-	char *request = soapenv(dev);
+	char *request = soapreq(dev);
 	printf("Request:\n%s\n", request);
 
 	struct MemoryStruct response;
