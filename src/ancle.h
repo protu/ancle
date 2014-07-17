@@ -35,5 +35,7 @@ typedef Device *DevicePtr;
 int getdevices(char *productClass, char *serialNumber);
 int callCurl(char *request, struct MemoryStruct *response);
 char *soapreq(DevicePtr dev);
+int totalRecords(char * response);
+int devicesFound(char *response);
 
 #endif

@@ -8,7 +8,6 @@
 #include <libxml/xpath.h>
 #include "ancle.h"
 
-#include <libxml/parser.h>
 
 
 xmlXPathObjectPtr getnodeset (xmlDocPtr doc, xmlChar *xpath)
