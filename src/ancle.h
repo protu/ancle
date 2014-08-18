@@ -21,16 +21,21 @@ struct MemoryStruct
  * member of the structure exept oui which is 6
  *
 **/
-struct DeviceStruct
+typedef struct DeviceStruct
 {
-	char * oui;
-	char * productclass;
-	char * serialnumber;
-	char * description;
-};
+	char *oui;
+	char *productclass;
+	char *serialnumber;
+	char *description;
+} Device;
 
-typedef struct DeviceStruct Device;
+/**
+ * Define Pointer for Device structure
+**/
+
 typedef Device *DevicePtr;
+
+
 
 int getdevices(char *productClass, char *serialNumber);
 int callCurl(char *request, struct MemoryStruct *response);
