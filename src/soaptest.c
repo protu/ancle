@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ancle.h"
+#include <libxml/parser.h>
 
 
 /**
@@ -93,7 +94,7 @@ int main(int argc, char **argv)
 
 	free(responsePtr);
 	responsePtr = NULL;
-
+	xmlCleanupParser();
 	return 0;
 }
 

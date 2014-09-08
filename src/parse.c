@@ -171,6 +171,7 @@ int devicesFound(char *response, int total)
 	}
 	parseDevices(rspDoc, curNode, deviceList);
 	xmlFreeDoc(rspDoc);
+	rspDoc = NULL;
 
 	printDevice(deviceList);
 	freeDevice(deviceList);
