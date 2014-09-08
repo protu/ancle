@@ -3,6 +3,9 @@
 #include "ancle.h"
 #include <string.h>
 
+#define nameCh (char *)name
+#define keyCh (char *)key
+
 // Create xmlDoc from character response
 xmlDocPtr responseToDoc(char *response);
 static xmlXPathObjectPtr getnodeset (xmlDocPtr doc, xmlChar *xpath);
@@ -57,6 +60,7 @@ int totalRecords(char * response)
 			xmlFree(keyword);
 		}
 		xmlXPathFreeObject(result);
+		result = NULL;
 	}
 	else
 		fprintf(stderr, "No result\n");
@@ -73,8 +77,6 @@ static void parseDevices(xmlDoc *doc, xmlNode * a_node, Device * deviceList)
 	xmlNode *cur_node = a_node;
 	xmlChar *key = NULL;
 	xmlChar *name = NULL;
-	char * nameCh = NULL;
-	char * keyCh = NULL;
 
 	for (cur_node = a_node; cur_node; cur_node = cur_node->next)
 	{
@@ -88,21 +90,10 @@ static void parseDevices(xmlDoc *doc, xmlNode * a_node, Device * deviceList)
 			else if (xmlStrEqual(cur_node->name, BAD_CAST "Name"))
 			{
 				name = xmlNodeListGetString(doc, cur_node->children, 1);
-				if((nameCh = calloc(sizeof(char), strlen((char *)name)+1)) == NULL)
-				{
-					fprintf(stderr, "Not enough memory");
-				}
-				strcpy(nameCh, (char *)name);
-				if(name)
-				{
-					xmlFree(name);
-					name = NULL;
-				}
 			}
 			else if (xmlStrEqual(cur_node->name, BAD_CAST "Value"))
 			{
 				key = xmlNodeListGetString(doc, cur_node->children, 1);
-				keyCh = (char *)key;
 				if (strcmp(nameCh, "OUI") == 0)
 				{
 					if ((deviceList->oui = malloc(strlen(keyCh)+1)) == NULL)
@@ -139,6 +130,11 @@ static void parseDevices(xmlDoc *doc, xmlNode * a_node, Device * deviceList)
 				{
 					xmlFree(key);
 					key = NULL;
+				}
+				if(name)
+				{
+					xmlFree(name);
+					name = NULL;
 				}
 			}
 		}
