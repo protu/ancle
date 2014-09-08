@@ -41,6 +41,6 @@ int getdevices(char *productClass, char *serialNumber);
 int callCurl(char *request, struct MemoryStruct *response);
 char *soapreq(DevicePtr dev);
 int totalRecords(char * response);
-int devicesFound(char *response);
+int devicesFound(char *response, int total);
 
 #endif

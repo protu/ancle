@@ -1,10 +1,38 @@
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
 #include "ancle.h"
+#include <string.h>
 
 // Create xmlDoc from character response
 xmlDocPtr responseToDoc(char *response);
-xmlXPathObjectPtr getnodeset (xmlDocPtr doc, xmlChar *xpath);
+static xmlXPathObjectPtr getnodeset (xmlDocPtr doc, xmlChar *xpath);
+
+void freeDevice(Device *deviceList)
+{
+	Device *firstDevice = deviceList;
+	while(deviceList->oui)
+	{
+		free(deviceList->oui);
+		free(deviceList->productclass);
+		free(deviceList->serialnumber);
+		free(deviceList->description);
+		deviceList++;
+	}
+	free(firstDevice);
+}
+
+void printDevice(Device *deviceList)
+{
+	while(deviceList->oui)
+	{
+		printf("OUI: %s\n", deviceList->oui);
+		printf("Product class: %s\n", deviceList->productclass);
+		printf("Serial: %s\n", deviceList->serialnumber);
+		printf("Description: %s\n", deviceList->description);
+		printf("---------------\n");
+		deviceList++;
+	}
+}
 
 int totalRecords(char * response)
 {
@@ -39,33 +67,121 @@ int totalRecords(char * response)
 	return(devicesNr);
 }
 
-int devicesFound(char *response)
+
+static void parseDevices(xmlDoc *doc, xmlNode * a_node, Device * deviceList)
 {
-	xmlDocPtr rspDoc = responseToDoc(response);
-	
-	// Define search string
-	xmlChar *xpathTotal = (xmlChar *) "//ResultField";
+	xmlNode *cur_node = a_node;
+	xmlChar *key = NULL;
+	xmlChar *name = NULL;
+	char * nameCh = NULL;
+	char * keyCh = NULL;
 
-	xmlXPathObjectPtr result;
-	int i;
-	xmlNodeSetPtr nodeset;
-	result = getnodeset (rspDoc, xpathTotal);
-	if (result)
+	for (cur_node = a_node; cur_node; cur_node = cur_node->next)
 	{
-		nodeset = result->nodesetval;
-		for (i=0; i < nodeset->nodeNr; i++)
+		if (cur_node->type == XML_ELEMENT_NODE)
 		{
-			printf("Node content:\n%s\n", (char *)nodeset->nodeTab[i]->content );
+			if (xmlStrEqual(cur_node->name, BAD_CAST "ResultFields"))
+			{
+				if (deviceList->oui != NULL)
+					deviceList++;
+			}
+			else if (xmlStrEqual(cur_node->name, BAD_CAST "Name"))
+			{
+				name = xmlNodeListGetString(doc, cur_node->children, 1);
+				if((nameCh = calloc(sizeof(char), strlen((char *)name)+1)) == NULL)
+				{
+					fprintf(stderr, "Not enough memory");
+				}
+				strcpy(nameCh, (char *)name);
+				if(name)
+				{
+					xmlFree(name);
+					name = NULL;
+				}
+			}
+			else if (xmlStrEqual(cur_node->name, BAD_CAST "Value"))
+			{
+				key = xmlNodeListGetString(doc, cur_node->children, 1);
+				keyCh = (char *)key;
+				if (strcmp(nameCh, "OUI") == 0)
+				{
+					if ((deviceList->oui = malloc(strlen(keyCh)+1)) == NULL)
+					{
+						fprintf(stderr, "Not enough memory");
+					}
+					strcpy(deviceList->oui, keyCh);
+				}
+				else if (strcmp(nameCh, "SerialNumber") == 0)
+				{
+					if ((deviceList->serialnumber = malloc(strlen(keyCh)+1)) == NULL)
+					{
+						fprintf(stderr, "Not enough memory");
+					}
+					strcpy(deviceList->serialnumber, keyCh);
+				} 
+				else if (strcmp(nameCh, "ProductClass") == 0)
+				{
+					if ((deviceList->productclass = malloc(strlen(keyCh)+1)) == NULL)
+					{
+						fprintf(stderr, "Not enough memory");
+					}
+					strcpy(deviceList->productclass, keyCh);
+				} 
+				else if (strcmp(nameCh, "Description") == 0)
+				{
+					if ((deviceList->description = malloc(strlen(keyCh)+1)) == NULL)
+					{
+						fprintf(stderr, "Not enough memory");
+					}
+					strcpy(deviceList->description, keyCh);
+				} 
+				if(key)
+				{
+					xmlFree(key);
+					key = NULL;
+				}
+			}
 		}
-		xmlXPathFreeObject(result);
-	}
-	else
-		fprintf(stderr, "No result\n");
 
+		parseDevices(doc, cur_node->children, deviceList);
+	}
+}
+
+int devicesFound(char *response, int total)
+{
+	Device *deviceList = NULL;
+	xmlNodePtr curNode ;
+
+	xmlDocPtr rspDoc = responseToDoc(response);
+	if (rspDoc == NULL)
+	{
+		fprintf(stderr, "Response is not parsed succesfully. \n");
+		return 1;
+	}
+
+	curNode = xmlDocGetRootElement(rspDoc);
+	if (curNode == NULL)
+	{
+		fprintf(stderr, "Empty response\n");
+		xmlFreeDoc(rspDoc);
+		return 0;
+	}
+
+	// Allocate one device more, so the last one will be NULL
+	if((deviceList = calloc(sizeof(Device), (total+1) * sizeof(Device))) == NULL)
+	{
+		fprintf(stderr, "Not enough memory to store devices\n");
+		return 1;
+	}
+	parseDevices(rspDoc, curNode, deviceList);
 	xmlFreeDoc(rspDoc);
+
+	printDevice(deviceList);
+	freeDevice(deviceList);
 
 	return(0);
 }
+
 
 
 xmlDocPtr responseToDoc(char *response)
@@ -91,7 +207,7 @@ xmlDocPtr responseToDoc(char *response)
 	return doc;
 }
 
-xmlXPathObjectPtr getnodeset (xmlDocPtr doc, xmlChar *xpath)
+static xmlXPathObjectPtr getnodeset (xmlDocPtr doc, xmlChar *xpath)
 {
 	xmlXPathContextPtr context;
 	xmlXPathObjectPtr result;

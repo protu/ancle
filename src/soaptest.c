@@ -84,12 +84,12 @@ int main(int argc, char **argv)
 	 *
 	**/
 
-	printf("Response:\n%s\n", responsePtr);
+	// printf("Response:\n%s\n", responsePtr);
 
 	int total;
 	total = totalRecords(responsePtr);
 	printf("Total records: %d\n", total);
-	devicesFound(responsePtr);
+	devicesFound(responsePtr, total);
 
 	free(responsePtr);
 	responsePtr = NULL;

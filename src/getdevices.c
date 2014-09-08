@@ -10,7 +10,7 @@
 
 
 
-xmlXPathObjectPtr getnodeset (xmlDocPtr doc, xmlChar *xpath)
+static xmlXPathObjectPtr getnodeset (xmlDocPtr doc, xmlChar *xpath)
 {
 	xmlXPathContextPtr context;
 	xmlXPathObjectPtr result;
@@ -40,7 +40,7 @@ xmlXPathObjectPtr getnodeset (xmlDocPtr doc, xmlChar *xpath)
 	return result;
 }
 
-xmlDocPtr prepareResponse(char *response)
+static xmlDocPtr prepareResponse(char *response)
 {
 	xmlDocPtr doc;
 	xmlChar *soapResponse;
