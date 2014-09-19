@@ -14,6 +14,9 @@ ancle: $(OBJ)
 soaptest: soapreq.o callcurl.o parse.o
 	$(CC) $(CFLAGS) $@.c $^ -o $@ $(LDLIBS)
 
+soapreqtest: soapreq.o 
+	$(CC) $(CFLAGS) $@.c $^ -o $@ $(LDLIBS)
+
 clean:
-	-rm soaptest ancle *.o
+	-rm soapreqtest soaptest ancle *.o
 

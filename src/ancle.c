@@ -31,11 +31,20 @@ int main (int argc, char **argv)
 {
 	
 	int c;
-	char *productclass = NULL;
-	char *serialnumber = NULL;
-	char *oui = NULL;
-	char *description = NULL;
 	char action = NULL;
+
+	Device *dev;
+	if ((dev = malloc(sizeof(Device))) == NULL)
+	{
+			fprintf(stderr, "Not enough memory\n");
+			return 1;
+	}
+
+
+	dev->productclass = NULL;
+	dev->serialnumber = NULL;
+	dev->oui = NULL;
+	dev->description = NULL;
 
 
 	static struct option long_options[] =
@@ -82,16 +91,16 @@ int main (int argc, char **argv)
 				action = 'S';
 				break;
 			case 'p':
-				productclass = optarg;
+				dev->productclass = optarg;
 				break;
 			case 'n':
-				serialnumber = optarg;
+				dev->serialnumber = optarg;
 				break;
 			case 'd':
-				description = optarg;
+				dev->description = optarg;
 				break;
 			case 'o':
-				oui = optarg;
+				dev->oui = optarg;
 				break;
 			case ':':
 			case '?':
@@ -109,21 +118,22 @@ int main (int argc, char **argv)
 			printf("Delete is not implemented.\n");
 			break;
 		case 'S':
-			if (productclass == NULL && serialnumber == NULL && oui == NULL && description == NULL)
+			if (dev->productclass == NULL && dev->serialnumber == NULL && dev->oui == NULL && dev->description == NULL)
 			{
 				printf("OUI, Product Class, Description or Serial Number must be specified\n");
-				printf("OUI: %s\n", oui);
-				printf("Product class: %s\n", productclass);
-				printf("Serial Number: %s\n", serialnumber);
-				printf("Description: %s\n", description);
+				printf("OUI: %s\n", dev->oui);
+				printf("Product class: %s\n", dev->productclass);
+				printf("Serial Number: %s\n", dev->serialnumber);
+				printf("Description: %s\n", dev->description);
 				return 0;
 			}
 			else
 			{
-				getdevices(productclass, serialnumber);
+				getdevices(dev);
 			}
 			break;
 	}
+	free(dev);
 
 	return 0;
 }

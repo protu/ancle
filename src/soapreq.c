@@ -6,7 +6,6 @@
 #include <libxml/xmlsave.h>
 #include "ancle.h"
 
-#if defined(LIBXML_TREE_ENABLED) && defined(LIBXML_OUTPUT_ENABLED)
 #define DEV_PARAM_SIZE 4
 
 int searchdevice(xmlNodePtr searchdev, char *productclass)
@@ -182,10 +181,3 @@ char *soapenv(DevicePtr dev)
     xmlMemoryDump();
     return(request);
 }
-
-#else
-int main(void) {
-    fprintf(stderr, "tree support not compiled in\n");
-    exit(1);
-}
-#endif
