@@ -17,6 +17,7 @@ int main(int argc, char **argv)
 
 	char *productClass = "Innbox V51 Home Gateway AnnexB";
 	char *oui= "00D050";
+	char *description = "dario@snifko - 6661400 - BSA_HH_IPTV";
 	DevicePtr dev = malloc(strlen(productClass) + strlen(oui));
 	if(dev == NULL)
 		fprintf(stderr, "Malloc failed at dev\n");
@@ -24,12 +25,17 @@ int main(int argc, char **argv)
 	dev->productclass = productClass;
 	dev->oui = oui;
 	dev->serialnumber = NULL;
-	dev->description = NULL;
+	dev->description = description;
 
-	char *request = soapreq(dev);
+	char *request = NULL;
+	/*
+	request = soapSearch(dev);
+	printf("Search request:\n%s\n", request);
+	*/
+	request = soapRegister(dev);
+	printf("Register request:\n%s\n", request);
 	free(dev);
 
-	printf("Request:\n%s\n", request);
 
 	free(request);
 	

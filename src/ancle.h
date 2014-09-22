@@ -4,6 +4,8 @@
 #define ACS_NBI_URL "http://l01acslab.ot.hr/nbi.php"
 #define ACS_NBI_USERPWD  "nbiuser:nbipass"
 
+extern int verbose;
+
 /**
  * Storage for retreived SOAP request
 **/
@@ -39,8 +41,11 @@ typedef Device *DevicePtr;
 
 int getdevices(Device *device);
 int callCurl(char *request, struct MemoryStruct *response);
-char *soapreq(DevicePtr dev);
+char *soapSearch(DevicePtr dev);
+char *soapRegister(DevicePtr dev);
 int totalRecords(char * response);
-int devicesFound(char *response, int total);
+Device *devicesFound(char *response, int total);
+void freeDevice(Device *deviceList);
+void printDevice(Device *deviceList);
 
 #endif

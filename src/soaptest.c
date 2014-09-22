@@ -90,7 +90,11 @@ int main(int argc, char **argv)
 	int total;
 	total = totalRecords(responsePtr);
 	printf("Total records: %d\n", total);
-	devicesFound(responsePtr, total);
+
+	Device *listdevices = NULL;
+	listdevices = devicesFound(responsePtr, total);
+	printDevice(listdevices);
+	freeDevice(listdevices);
 
 	free(responsePtr);
 	responsePtr = NULL;

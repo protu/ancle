@@ -15,9 +15,14 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
 		printf("not enough memory (realloc returned NULL)\n");
 		return 0;
 	}
-	memcpy(mem->memory, contents, realsize);
+	memcpy(&(mem->memory[mem->size]), contents, realsize);
 	mem->size += realsize;
 	mem->memory[mem->size] = 0;
+	if(verbose)
+	{
+		printf("Memory size: %d\n", mem->size);
+		printf("Memory value: %s\n", mem->memory);
+	}
 	return realsize;
 }
 
@@ -38,7 +43,8 @@ int callCurl(char *request, struct MemoryStruct *response)
 	curl = curl_easy_init();
 	if(curl)
 	{
-//		curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);  
+		if(verbose)
+			curl_easy_setopt(curl, CURLOPT_VERBOSE, 2L);  
 		curl_easy_setopt(curl, CURLOPT_URL, ACS_NBI_URL);
 		curl_easy_setopt(curl, CURLOPT_POST, 1L);
 		curl_easy_setopt(curl, CURLOPT_USERPWD, ACS_NBI_USERPWD);

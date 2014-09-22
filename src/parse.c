@@ -143,7 +143,7 @@ static void parseDevices(xmlDoc *doc, xmlNode * a_node, Device * deviceList)
 	}
 }
 
-int devicesFound(char *response, int total)
+Device *devicesFound(char *response, int total)
 {
 	Device *deviceList = NULL;
 	xmlNodePtr curNode ;
@@ -152,7 +152,7 @@ int devicesFound(char *response, int total)
 	if (rspDoc == NULL)
 	{
 		fprintf(stderr, "Response is not parsed succesfully. \n");
-		return 1;
+		return NULL;
 	}
 
 	curNode = xmlDocGetRootElement(rspDoc);
@@ -160,23 +160,21 @@ int devicesFound(char *response, int total)
 	{
 		fprintf(stderr, "Empty response\n");
 		xmlFreeDoc(rspDoc);
-		return 0;
+		return NULL;
 	}
 
 	// Allocate one device more, so the last one will be NULL
 	if((deviceList = calloc(sizeof(Device), (total+1) * sizeof(Device))) == NULL)
 	{
 		fprintf(stderr, "Not enough memory to store devices\n");
-		return 1;
+		return NULL;
 	}
 	parseDevices(rspDoc, curNode, deviceList);
 	xmlFreeDoc(rspDoc);
 	rspDoc = NULL;
+	xmlCleanupParser();
 
-	printDevice(deviceList);
-	freeDevice(deviceList);
-
-	return(0);
+	return(deviceList);
 }
 
 

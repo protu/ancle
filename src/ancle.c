@@ -4,6 +4,8 @@
 #include <getopt.h>
 #include "ancle.h"
 
+int verbose = 0;
+
 void print_help()
 {
 	char *help = " \
@@ -22,7 +24,8 @@ Options:\n \
 -o --oui=oui\tdevice's object unique identifier\n \
 -p --product-class=product class\tdevices's product class\n \
 -s --serial-number=serial number\tdevices's serial number\n \
--d --description=description\t\tdevice's description. It is possible to use SQL wildcard %\n ";
+-d --description=description\t\tdevice's description. It is possible to use SQL wildcard %\n\n \
+-v --verbose\tbe verbose\n";
 
 	puts(help);
 }
@@ -59,6 +62,7 @@ int main (int argc, char **argv)
 		{"serial-number", required_argument, 0, 'n'},
 		{"oui", required_argument, 0, 'o'},
 		{"description", required_argument, 0, 'd'},
+		{"verbose", no_argument, 0, 'v'},
 		{0, 0, 0, 0}
 	};
 
@@ -69,7 +73,7 @@ int main (int argc, char **argv)
 
 	while(1)
 	{
-		c = getopt_long(argc, argv, "VhRDSc:o:p:n:", long_options, &option_index);
+		c = getopt_long(argc, argv, "VhRDSvc:o:p:n:d:", long_options, &option_index);
 		if (c == -1)
 			break;
 
@@ -102,6 +106,9 @@ int main (int argc, char **argv)
 			case 'o':
 				dev->oui = optarg;
 				break;
+			case 'v':
+				verbose = 1;
+				break;
 			case ':':
 			case '?':
 				print_help();
@@ -132,6 +139,8 @@ int main (int argc, char **argv)
 				getdevices(dev);
 			}
 			break;
+		default:
+			print_help();
 	}
 	free(dev);
 

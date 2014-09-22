@@ -2,10 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <libxml/parser.h>
 #include "ancle.h"
-
-
 
 int getdevices(Device *device)
 {
@@ -22,7 +19,7 @@ int getdevices(Device *device)
 	else if (device->serialnumber != NULL)
 		printf("Search by serial number is not yet implemented, only product class will be used\n");
 
-	char *request = soapreq(device);
+	char *request = soapSearch(device);
 	device = NULL;
 
 	struct MemoryStruct response;
@@ -39,13 +36,18 @@ int getdevices(Device *device)
 	char *responsePtr = response.memory;
 	int total;
 
+	if (verbose)
+		printf("Response:\n%s\n", responsePtr);
+
 	total = totalRecords(responsePtr);
 	printf("Total records: %d\n", total);
-	devicesFound(responsePtr, total);
+	Device *listdevices = NULL;
+	listdevices = devicesFound(responsePtr, total);
+	printDevice(listdevices);
+	freeDevice(listdevices);
 
 	free(responsePtr);
 	responsePtr = NULL;
-	xmlCleanupParser();
 
 	return 0;
 }

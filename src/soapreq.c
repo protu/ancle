@@ -8,17 +8,34 @@
 
 #define DEV_PARAM_SIZE 4
 
-int searchdevice(xmlNodePtr searchdev, char *productclass)
+static char *docToChar(xmlDocPtr doc)
 {
-    xmlNodePtr searchquery = NULL;
-	searchquery = xmlNewNode(NULL, BAD_CAST "SearchQuery");
-	xmlAddChild(searchdev, searchquery);
-	xmlNewChild(searchquery, NULL, BAD_CAST "ProductClass", BAD_CAST productclass);
+	char *request = NULL;
+	xmlBufferPtr buf = xmlBufferCreate();
+	if(buf)
+	{
+		xmlSaveCtxtPtr ctx = xmlSaveToBuffer(buf, "UTF-8", XML_SAVE_FORMAT|XML_SAVE_NO_DECL);
+		if(ctx)
+		{
+			xmlSaveDoc(ctx, doc);
+			xmlSaveClose(ctx);
+		}
+		request = malloc(strlen((const char*)xmlBufferContent(buf))+1);
+		strcpy(request, (const char *)xmlBufferContent(buf));
+		xmlBufferFree(buf);
+	}
+	else
+	{
+		fprintf(stderr, "Error creating xml buffer\n");
+	}
 
-    return(0);
+    xmlFreeDoc(doc);
+    xmlCleanupParser();
+    xmlMemoryDump();
+    return(request);
 }
 
-int customsearch(xmlNodePtr customsearch, DevicePtr dev)
+static int customsearch(xmlNodePtr customsearch, DevicePtr dev)
 {
 	// Select fields to display
 	xmlNodePtr selectfields = xmlNewNode(NULL, BAD_CAST "SelectFields");
@@ -79,15 +96,8 @@ int customsearch(xmlNodePtr customsearch, DevicePtr dev)
 	return(0);
 }
 
-
-/**
- * This funcition conbine soap envelope with desired soap 
- * action as defined for ACSLite
-**/
-
-char *soapreq(DevicePtr dev)
+static xmlDocPtr soapStart()
 {
-	char *request = NULL;
     xmlDocPtr doc = NULL;
     xmlNodePtr envelope = NULL, body = NULL;
 
@@ -95,7 +105,6 @@ char *soapreq(DevicePtr dev)
     envelope = xmlNewNode(NULL, BAD_CAST "Envelope");
 
 	xmlNsPtr nssoapenv = xmlNewNs(envelope, BAD_CAST"http://schemas.xmlsoap.org/soap/envelope/", BAD_CAST "soapenv");
-	xmlNsPtr nsnbi = xmlNewNs(envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4", BAD_CAST "nbi");
 	xmlSetNs(envelope, nssoapenv);
 
     xmlDocSetRootElement(doc, envelope);
@@ -103,81 +112,43 @@ char *soapreq(DevicePtr dev)
     body = xmlNewNode(nssoapenv, BAD_CAST "Body");
 	xmlAddChild(envelope, body);
 
+	return doc;
+}
+
+static void addSearch(xmlDocPtr doc, DevicePtr dev)
+{
+	xmlNodePtr envelope = xmlDocGetRootElement(doc);
+	xmlNodePtr body = xmlLastElementChild(envelope);
+	xmlNsPtr nsnbi = xmlNewNs(envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4", BAD_CAST "nbi");
 	xmlNodePtr sd = xmlNewNode(nsnbi, BAD_CAST "CustomSearch");
 	customsearch(sd, dev);
 	if (sd)
 		xmlAddChild(body, sd);
 	else
 		fprintf(stderr, "No body defined\n");
-
-	xmlBufferPtr buf = xmlBufferCreate();
-	if(buf)
-	{
-		xmlSaveCtxtPtr ctx = xmlSaveToBuffer(buf, "UTF-8", XML_SAVE_FORMAT|XML_SAVE_NO_DECL);
-		if(ctx)
-		{
-			xmlSaveDoc(ctx, doc);
-			xmlSaveClose(ctx);
-		}
-		request = malloc(strlen((const char*)xmlBufferContent(buf))+1);
-		strcpy(request, (const char *)xmlBufferContent(buf));
-		xmlBufferFree(buf);
-	}
-
-    /*free the document */
-    xmlFreeDoc(doc);
-    xmlCleanupParser();
-    xmlMemoryDump();
-    return(request);
 }
 
-/**
- * This funcition creates SOAP envelope to be used with all
- * requests
- *
- * It sould be chaged to work that way
-**/
-
-char *soapenv(DevicePtr dev)
+static void addRegister(xmlDocPtr doc, DevicePtr dev)
 {
-	char *request = NULL;
-    xmlDocPtr doc = NULL;
-    xmlNodePtr envelope = NULL, body = NULL;
-
-    doc = xmlNewDoc(BAD_CAST "1.0");
-    envelope = xmlNewNode(NULL, BAD_CAST "Envelope");
-
-	xmlNsPtr nssoapenv = xmlNewNs(envelope, BAD_CAST"http://schemas.xmlsoap.org/soap/envelope/", BAD_CAST "soapenv");
+	xmlNodePtr envelope = xmlDocGetRootElement(doc);
+	xmlNodePtr body = xmlLastElementChild(envelope);
 	xmlNsPtr nsnbi = xmlNewNs(envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4", BAD_CAST "nbi");
-	xmlSetNs(envelope, nssoapenv);
+	xmlNodePtr sd = xmlNewNode(nsnbi, BAD_CAST "RegisterDevice");
+	xmlAddChild(body, sd);
+}
 
-    xmlDocSetRootElement(doc, envelope);
-    xmlNewChild(envelope, NULL, BAD_CAST "Header", NULL);
-    body = xmlNewNode(nssoapenv, BAD_CAST "Body");
-	xmlAddChild(envelope, body);
+char *soapSearch(DevicePtr dev)
+{
+    xmlDocPtr doc = NULL;
+	doc = soapStart();
+	addSearch(doc, dev);
+	return docToChar(doc);
+}
 
-	xmlNodePtr sd = xmlNewNode(nsnbi, BAD_CAST "SearchDevices");
-	searchdevice(sd, dev->productclass);
-	if (sd)
-		xmlAddChild(body, sd);
-
-	xmlBufferPtr buf = xmlBufferCreate();
-	if(buf)
-	{
-		xmlSaveCtxtPtr ctx = xmlSaveToBuffer(buf, "UTF-8", XML_SAVE_NO_DECL);
-		if(ctx)
-		{
-			xmlSaveDoc(ctx, doc);
-			xmlSaveClose(ctx);
-		}
-		request = malloc(strlen((const char*)xmlBufferContent(buf))+1);
-		strcpy(request, (const char *)xmlBufferContent(buf));
-		xmlBufferFree(buf);
-	}
-
-    /*free the document */
-    xmlFreeDoc(doc);
-    xmlCleanupParser();
-    xmlMemoryDump();
-    return(request);
+char *soapRegister(DevicePtr dev)
+{
+    xmlDocPtr doc = NULL;
+	doc = soapStart();
+	addRegister(doc, dev);
+	return docToChar(doc);
 }
