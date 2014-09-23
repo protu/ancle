@@ -59,7 +59,7 @@ int main (int argc, char **argv)
 		{"search", no_argument, 0, 'S'},
 		{"count", required_argument, 0, 'c'},
 		{"product-class", required_argument, 0, 'p'},
-		{"serial-number", required_argument, 0, 'n'},
+		{"serial-number", required_argument, 0, 's'},
 		{"oui", required_argument, 0, 'o'},
 		{"description", required_argument, 0, 'd'},
 		{"verbose", no_argument, 0, 'v'},
@@ -69,11 +69,14 @@ int main (int argc, char **argv)
 	int option_index = 0;
 
 	if(argc < 2)
+	{
 		print_help();
+		return 0;
+	}
 
 	while(1)
 	{
-		c = getopt_long(argc, argv, "VhRDSvc:o:p:n:d:", long_options, &option_index);
+		c = getopt_long(argc, argv, "VhRDSvc:o:p:s:d:", long_options, &option_index);
 		if (c == -1)
 			break;
 
@@ -97,7 +100,7 @@ int main (int argc, char **argv)
 			case 'p':
 				dev->productclass = optarg;
 				break;
-			case 'n':
+			case 's':
 				dev->serialnumber = optarg;
 				break;
 			case 'd':
@@ -119,10 +122,34 @@ int main (int argc, char **argv)
 	switch(action)
 	{
 		case 'R':
-			printf("Register is not implemented.\n");
+			if (dev->productclass == NULL || dev->serialnumber == NULL || dev->oui == NULL)
+			{
+				printf("OUI, Product Class and Serial Number must be specified\n");
+				printf("OUI: %s\n", dev->oui);
+				printf("Product class: %s\n", dev->productclass);
+				printf("Serial Number: %s\n", dev->serialnumber);
+				printf("Description: %s\n", dev->description);
+				return 0;
+			}
+			else
+			{
+				regdevice(dev);
+			}
 			break;
 		case 'D':
-			printf("Delete is not implemented.\n");
+			if (dev->productclass == NULL && dev->serialnumber == NULL && dev->oui == NULL && dev->description == NULL)
+			{
+				printf("OUI, Product Class, Description or Serial Number must be specified\n");
+				printf("OUI: %s\n", dev->oui);
+				printf("Product class: %s\n", dev->productclass);
+				printf("Serial Number: %s\n", dev->serialnumber);
+				printf("Description: %s\n", dev->description);
+				return 0;
+			}
+			else
+			{
+				deldevices(dev);
+			}
 			break;
 		case 'S':
 			if (dev->productclass == NULL && dev->serialnumber == NULL && dev->oui == NULL && dev->description == NULL)

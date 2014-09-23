@@ -4,20 +4,13 @@
 #include <stdlib.h>
 #include "ancle.h"
 
-int getdevices(Device *device)
+static Device *finddevices(Device *device)
 {
 
 /*
  * Construct search SOAP request for sending to ACSLite's NBI
  */
 
-	if (device->serialnumber != NULL && device->productclass == NULL)
-	{
-		printf("Search by serial number is not yet implemented\n");
-		return 0;
-	}
-	else if (device->serialnumber != NULL)
-		printf("Search by serial number is not yet implemented, only product class will be used\n");
 
 	char *request = soapSearch(device);
 	device = NULL;
@@ -43,12 +36,59 @@ int getdevices(Device *device)
 	printf("Total records: %d\n", total);
 	Device *listdevices = NULL;
 	listdevices = devicesFound(responsePtr, total);
-	printDevice(listdevices);
-	freeDevice(listdevices);
 
 	free(responsePtr);
 	responsePtr = NULL;
 
+	return listdevices;
+}
+
+int getdevices(Device *device)
+{
+	Device *listdevices = NULL;
+	listdevices = finddevices(device);
+	printDevice(listdevices);
+	freeDevice(listdevices);
+	return 0;
+}
+
+int deldevices(Device *device)
+{
+	Device *listdevices = NULL;
+	listdevices = finddevices(device);
+	printDevice(listdevices);
+	freeDevice(listdevices);
+	return 0;
+}
+
+
+int regdevice(Device *device)
+{
+	char *request = soapRegister(device);
+	device = NULL;
+
+	struct MemoryStruct response;
+	response.memory = malloc(1);
+	response.size=0;
+	
+	callCurl(request, &response);
+	if(request)
+	{
+		free(request);
+		request = NULL;
+	}
+
+	char *responsePtr = response.memory;
+	if (verbose)
+		printf("Response:\n%s\n", responsePtr);
+
+	if (createResult(responsePtr) == 0)
+		printf("Device successfully registered\n");
+	else
+		printf("Error registering device\n");
+
+	free(responsePtr);
+	responsePtr = NULL;
 	return 0;
 }
 

@@ -35,6 +35,35 @@ static char *docToChar(xmlDocPtr doc)
     return(request);
 }
 
+static int registerdevice(xmlNodePtr registerdevice, DevicePtr dev)
+{
+	xmlNodePtr deviceID = xmlNewNode(NULL, BAD_CAST "DeviceID");
+	xmlAddChild(registerdevice, deviceID);
+	xmlNewChild(deviceID, NULL, BAD_CAST "OUI", BAD_CAST dev->oui);
+	xmlNewChild(deviceID, NULL, BAD_CAST "ProductClass", BAD_CAST dev->productclass);
+	xmlNewChild(deviceID, NULL, BAD_CAST "SerialNumber", BAD_CAST dev->serialnumber);
+
+	if (dev->description)
+	{
+		xmlNodePtr deviceProperties = xmlNewNode(NULL, BAD_CAST "DeviceProperties");
+		xmlAddChild(registerdevice, deviceProperties);
+		xmlNewChild(deviceProperties, NULL, BAD_CAST "Description", BAD_CAST dev->description);
+	}
+
+	return(0);
+}
+
+static int deletedevice(xmlNodePtr registerdevice, DevicePtr dev)
+{
+	xmlNodePtr deviceID = xmlNewNode(NULL, BAD_CAST "DeviceID");
+	xmlAddChild(registerdevice, deviceID);
+	xmlNewChild(deviceID, NULL, BAD_CAST "OUI", BAD_CAST dev->oui);
+	xmlNewChild(deviceID, NULL, BAD_CAST "ProductClass", BAD_CAST dev->productclass);
+	xmlNewChild(deviceID, NULL, BAD_CAST "SerialNumber", BAD_CAST dev->serialnumber);
+
+	return(0);
+}
+
 static int customsearch(xmlNodePtr customsearch, DevicePtr dev)
 {
 	// Select fields to display
@@ -60,7 +89,7 @@ static int customsearch(xmlNodePtr customsearch, DevicePtr dev)
 		any = xmlNewChild(required, NULL, BAD_CAST "Any", NULL);
 		xmlNewChild(any, NULL, BAD_CAST "Type", BAD_CAST "Device");
 		xmlNewChild(any, NULL, BAD_CAST "Name", BAD_CAST "OUI");
-		xmlNewChild(any, NULL, BAD_CAST "Operator", BAD_CAST "=");
+		xmlNewChild(any, NULL, BAD_CAST "Operator", BAD_CAST "LIKE");
 		xmlNewChild(any, NULL, BAD_CAST "Value", BAD_CAST dev->oui);
 	}
 	if (dev->productclass)
@@ -69,7 +98,7 @@ static int customsearch(xmlNodePtr customsearch, DevicePtr dev)
 		any = xmlNewChild(required, NULL, BAD_CAST "Any", NULL);
 		xmlNewChild(any, NULL, BAD_CAST "Type", BAD_CAST "Device");
 		xmlNewChild(any, NULL, BAD_CAST "Name", BAD_CAST "ProductClass");
-		xmlNewChild(any, NULL, BAD_CAST "Operator", BAD_CAST "=");
+		xmlNewChild(any, NULL, BAD_CAST "Operator", BAD_CAST "LIKE");
 		xmlNewChild(any, NULL, BAD_CAST "Value", BAD_CAST dev->productclass);
 	}
 	if (dev->serialnumber)
@@ -78,7 +107,7 @@ static int customsearch(xmlNodePtr customsearch, DevicePtr dev)
 		any = xmlNewChild(required, NULL, BAD_CAST "Any", NULL);
 		xmlNewChild(any, NULL, BAD_CAST "Type", BAD_CAST "Device");
 		xmlNewChild(any, NULL, BAD_CAST "Name", BAD_CAST "SerialNumber");
-		xmlNewChild(any, NULL, BAD_CAST "Operator", BAD_CAST "=");
+		xmlNewChild(any, NULL, BAD_CAST "Operator", BAD_CAST "LIKE");
 		xmlNewChild(any, NULL, BAD_CAST "Value", BAD_CAST dev->serialnumber);
 	}
 	if (dev->description)
@@ -134,6 +163,17 @@ static void addRegister(xmlDocPtr doc, DevicePtr dev)
 	xmlNodePtr body = xmlLastElementChild(envelope);
 	xmlNsPtr nsnbi = xmlNewNs(envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4", BAD_CAST "nbi");
 	xmlNodePtr sd = xmlNewNode(nsnbi, BAD_CAST "RegisterDevice");
+	registerdevice(sd, dev);
+	xmlAddChild(body, sd);
+}
+
+static void addDelete(xmlDocPtr doc, DevicePtr dev)
+{
+	xmlNodePtr envelope = xmlDocGetRootElement(doc);
+	xmlNodePtr body = xmlLastElementChild(envelope);
+	xmlNsPtr nsnbi = xmlNewNs(envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4", BAD_CAST "nbi");
+	xmlNodePtr sd = xmlNewNode(nsnbi, BAD_CAST "DeleteDevice");
+	deletedevice(sd, dev);
 	xmlAddChild(body, sd);
 }
 
@@ -150,5 +190,13 @@ char *soapRegister(DevicePtr dev)
     xmlDocPtr doc = NULL;
 	doc = soapStart();
 	addRegister(doc, dev);
+	return docToChar(doc);
+}
+
+char *soapDelete(DevicePtr dev)
+{
+    xmlDocPtr doc = NULL;
+	doc = soapStart();
+	addDelete(doc, dev);
 	return docToChar(doc);
 }

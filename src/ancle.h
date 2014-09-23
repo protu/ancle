@@ -40,12 +40,16 @@ typedef Device *DevicePtr;
 
 
 int getdevices(Device *device);
+int deldevices(Device *device);
+int regdevice(Device *device);
 int callCurl(char *request, struct MemoryStruct *response);
 char *soapSearch(DevicePtr dev);
 char *soapRegister(DevicePtr dev);
+char *soapDelete(DevicePtr dev);
 int totalRecords(char * response);
 Device *devicesFound(char *response, int total);
 void freeDevice(Device *deviceList);
 void printDevice(Device *deviceList);
+int createResult(char * response);
 
 #endif

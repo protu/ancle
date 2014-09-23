@@ -71,6 +71,39 @@ int totalRecords(char * response)
 	return(devicesNr);
 }
 
+int createResult(char * response)
+{
+
+	xmlDocPtr rspDoc = responseToDoc(response);
+	
+	// Define search string
+	xmlChar *xpathTotal = (xmlChar *) "//Success";
+
+	xmlXPathObjectPtr result;
+	xmlChar *keyword;
+	int i, out;
+	xmlNodeSetPtr nodeset;
+	result = getnodeset (rspDoc, xpathTotal);
+	if (result)
+	{
+		nodeset = result->nodesetval;
+		for (i=0; i < nodeset->nodeNr; i++)
+		{
+			keyword = xmlNodeListGetString(rspDoc, nodeset->nodeTab[i]->xmlChildrenNode, 1);
+		}
+		xmlXPathFreeObject(result);
+		result = NULL;
+	}
+	else
+		fprintf(stderr, "No result\n");
+
+	out = strcmp("true", (char *)keyword);
+	xmlFree(keyword);
+	xmlFreeDoc(rspDoc);
+	rspDoc=NULL;
+
+	return(out);
+}
 
 static void parseDevices(xmlDoc *doc, xmlNode * a_node, Device * deviceList)
 {
@@ -94,7 +127,7 @@ static void parseDevices(xmlDoc *doc, xmlNode * a_node, Device * deviceList)
 			else if (xmlStrEqual(cur_node->name, BAD_CAST "Value"))
 			{
 				key = xmlNodeListGetString(doc, cur_node->children, 1);
-				if (strcmp(nameCh, "OUI") == 0)
+				if (strcmp(nameCh, "OUI") == 0 && key)
 				{
 					if ((deviceList->oui = malloc(strlen(keyCh)+1)) == NULL)
 					{
@@ -102,7 +135,7 @@ static void parseDevices(xmlDoc *doc, xmlNode * a_node, Device * deviceList)
 					}
 					strcpy(deviceList->oui, keyCh);
 				}
-				else if (strcmp(nameCh, "SerialNumber") == 0)
+				else if (strcmp(nameCh, "SerialNumber") == 0 && key)
 				{
 					if ((deviceList->serialnumber = malloc(strlen(keyCh)+1)) == NULL)
 					{
@@ -110,7 +143,7 @@ static void parseDevices(xmlDoc *doc, xmlNode * a_node, Device * deviceList)
 					}
 					strcpy(deviceList->serialnumber, keyCh);
 				} 
-				else if (strcmp(nameCh, "ProductClass") == 0)
+				else if (strcmp(nameCh, "ProductClass") == 0 && key)
 				{
 					if ((deviceList->productclass = malloc(strlen(keyCh)+1)) == NULL)
 					{
@@ -118,7 +151,7 @@ static void parseDevices(xmlDoc *doc, xmlNode * a_node, Device * deviceList)
 					}
 					strcpy(deviceList->productclass, keyCh);
 				} 
-				else if (strcmp(nameCh, "Description") == 0)
+				else if (strcmp(nameCh, "Description") == 0 && key )
 				{
 					if ((deviceList->description = malloc(strlen(keyCh)+1)) == NULL)
 					{
