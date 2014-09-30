@@ -17,6 +17,9 @@ soaptest: soapreq.o callcurl.o parse.o
 soapreqtest: soapreq.o 
 	$(CC) $(CFLAGS) $@.c $^ -o $@ $(LDLIBS)
 
+config:
+	$(CC) -g -Wall $@.c -o $@
+
 clean:
-	-rm soapreqtest soaptest ancle *.o
+	-rm config soapreqtest soaptest ancle *.o
 
