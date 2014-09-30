@@ -2,27 +2,51 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#define MAXLINE 250
+#include <errno.h>
 
-void read();
-void strip(char *);
+#define MAXLINE 250
+#define LOCAL_CONFIG "/.anclerc"
+#define GLOBAL_CONFIG "/etc/anclerc"
+
+int read(char *filename);
+void strip(char *string);
+
 
 int main()
 {
-	read();
-	return 0;
+	
+	char *file = NULL;
+	char *home;
+
+	file = NULL;
+	home = getenv("HOME");
+	const char *fileName = LOCAL_CONFIG;
+	file = malloc((strlen(home)+1)*sizeof(char) + (strlen(fileName)+1)*sizeof(char));
+	strcat(file, home);
+	strcat(file, fileName);
+	
+	if (read(GLOBAL_CONFIG))
+		;
+	else if(read(file))
+		;
+	else
+		fprintf(stderr, "Can't open file %s . %s\n", file, strerror(errno));
+
+	free(file);
+	return 1;
 }
 
-void read() {
+int read(char *file) {
 	FILE *cnf = NULL;
+	char *value;
 	char line[MAXLINE];
-	cnf = fopen("anclerc", "r");
-	char  *value;
+
+	cnf = fopen(file, "r");
 
 	if (cnf == NULL)
 	{
-		fprintf(stderr, "Can't open file\n");
-		exit(0);
+		fprintf(stderr, "Can't open file %s . %s\n", file, strerror(errno));
+		return 0;
 	}
 
 	while (1)
@@ -41,6 +65,7 @@ void read() {
 		}
 	}
 	fclose(cnf);
+	return 1;
 }
 
 void strip(char * str)
