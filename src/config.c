@@ -9,9 +9,17 @@
 #define LOCAL_CONFIG "/.anclerc"
 #define GLOBAL_CONFIG "/etc/anclerc"
 
-int read(char *filename);
+typedef struct acsdata
+{
+	char *url;
+	char *user;
+	char *pass;
+} acs;
+
+int read(char *filename, acs *data);
+int envSetting(acs *data);
 void strip(char *string);
-int envSetting();
+void acsFreeData(acs *data);
 
 
 int main()
@@ -19,6 +27,18 @@ int main()
 	
 	char *file = NULL;
 	char *home;
+	acs *serverdata = NULL;
+	int exit = 0;
+
+	if ((serverdata = malloc(sizeof(acs))) == NULL)
+	{
+		fprintf(stderr, "Not enough memory\n");
+		return 0;
+	}
+
+	serverdata->url = NULL;
+	serverdata->user = NULL;
+	serverdata->pass = NULL;
 
 	file = NULL;
 	home = getenv("HOME");
@@ -27,22 +47,32 @@ int main()
 	strcat(file, home);
 	strcat(file, fileName);
 	
-	if (read(USER_CONFIG)) 
+	if (read(USER_CONFIG, serverdata)) 
 		;
-	else if (envSetting()) 
+	else if (envSetting(serverdata))
 		;
-	else if(read(file))
+	else if(read(file, serverdata))
 		;
-	else if (read(GLOBAL_CONFIG))
+	else if (read(GLOBAL_CONFIG, serverdata))
 		;
 	else
+	{
 		fprintf(stderr, "Can't set ACS server\n");
+		exit = 1;
+	}
 
+	if (!exit)
+		printf("URL: %s\nuser: %s\npass: %s\n", serverdata->url, serverdata->user, serverdata->pass);
+
+	acsFreeData(serverdata);
+	free(serverdata);
+	serverdata = NULL;
 	free(file);
-	return 1;
+
+	return exit;
 }
 
-int envSetting()
+int envSetting(acs *serverdata)
 {
 	char *acsurl = getenv("ACS_URL");
 	char *acsuser = getenv("ACS_USER");
@@ -52,7 +82,28 @@ int envSetting()
 
 	if (acsurl && acsuser && acspass)
 	{
-		printf("URL: %s\nuser: %s\npass: %s\n", acsurl, acsuser, acspass);
+		if ((serverdata->url = malloc((strlen(acsurl)+1)*sizeof(char))) == NULL) 
+		{
+			fprintf(stderr, "Not enough memory\n");
+			acsFreeData(serverdata);
+			return 0;
+		}
+		if ((serverdata->user = malloc((strlen(acsuser)+1)*sizeof(char))) == NULL)
+		{
+			fprintf(stderr, "Not enough memory\n");
+			acsFreeData(serverdata);
+			return 0;
+		}
+		if ((serverdata->pass = malloc((strlen(acspass)+1)*sizeof(char))) == NULL)
+		{
+			fprintf(stderr, "Not enough memory\n");
+			acsFreeData(serverdata);
+			return 0;
+		}
+
+		strcpy(serverdata->url, acsurl);
+		strcpy(serverdata->user, acsuser);
+		strcpy(serverdata->pass, acspass);
 	}
 	else
 		return 0;
@@ -61,14 +112,14 @@ int envSetting()
 }
 
 
-int read(char *file) {
+int read(char *file, acs * serverdata) {
 	FILE *cnf = NULL;
-	char *value, *acsurl, *acsuser, *acspass;
+	char *value;
 	char line[MAXLINE];
 
-	acsurl = NULL;
-	acsuser = NULL;
-	acspass = NULL;
+	serverdata->url = NULL;
+	serverdata->user = NULL;
+	serverdata->pass = NULL;
 
 	cnf = fopen(file, "r");
 
@@ -91,58 +142,44 @@ int read(char *file) {
 			value[0] = '\0';
 			strip(++value);
 			strip(line);
-//			printf("Token: %s\nValue: %s\n\n", line, value);
 
 			if (strstr(line, "url") == line)
 			{
-				if ((acsurl = malloc((strlen(value)+1)*sizeof(char))) == NULL)
+				if ((serverdata->url = malloc((strlen(value)+1)*sizeof(char))) == NULL)
 				{
 					fprintf(stderr, "Not enough memory\n");
+					acsFreeData(serverdata);
 					return 0;
 				}
-				strcpy(acsurl, value);
+				strcpy(serverdata->url, value);
 			}
 			else if (strstr(line, "user") == line)
 			{
-				if ((acsuser = malloc((strlen(value)+1)*sizeof(char))) == NULL)
+				if ((serverdata->user = malloc((strlen(value)+1)*sizeof(char))) == NULL)
 				{
 					fprintf(stderr, "Not enough memory\n");
+					acsFreeData(serverdata);
 					return 0;
 				}
-				strcpy(acsuser, value);
+				strcpy(serverdata->user, value);
 			}
 			else if (strstr(line, "pass") == line)
 			{
-				if ((acspass= malloc((strlen(value)+1)*sizeof(char))) == NULL)
+				if ((serverdata->pass= malloc((strlen(value)+1)*sizeof(char))) == NULL)
 				{
 					fprintf(stderr, "Not enough memory\n");
+					acsFreeData(serverdata);
 					return 0;
 				}
-				strcpy(acspass, value);
+				strcpy(serverdata->pass, value);
 			}
 		}
 	}
 	fclose(cnf);
 
-	if (acsurl && acsuser && acspass)
+	if (!(serverdata->url && serverdata->user && serverdata->pass))
 	{
-		printf("URL: %s\nuser: %s\npass: %s\n", acsurl, acsuser, acspass);
-		free(acsurl);
-		free(acsuser);
-		free(acspass);
-		acsurl = NULL;
-		acsuser = NULL;
-		acspass = NULL;
-	}
-	else
-	{
-		if (acsurl)
-			free(acsurl);
-		if (acsuser)
-			free(acsuser);
-		if (acspass)
-			free(acspass);
-
+		acsFreeData(serverdata);
 		return 0;
 	}
 
@@ -170,4 +207,16 @@ void strip(char * str)
 	memmove(str, str+i, len+1-i);
 }
 		
+void acsFreeData(acs *serverdata)
+{
+		if (serverdata->url)
+			free(serverdata->url);
+		if (serverdata->user)
+			free(serverdata->user);
+		if (serverdata->pass)
+			free(serverdata->pass);
 
+		serverdata->url = NULL;
+		serverdata->user = NULL;
+		serverdata->pass = NULL;
+}
