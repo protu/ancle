@@ -4,24 +4,21 @@
 #include <stdlib.h>
 #include "ancle.h"
 
-static Device *finddevices(Device *device)
-{
+static Device *finddevices(Device *device) {
 
-/*
- * Construct search SOAP request for sending to ACSLite's NBI
- */
-
+	/*
+	 * Construct search SOAP request for sending to ACSLite's NBI
+	 */
 
 	char *request = soapSearch(device);
 	device = NULL;
 
 	struct MemoryStruct response;
 	response.memory = malloc(1);
-	response.size=0;
-	
+	response.size = 0;
+
 	callCurl(request, &response);
-	if(request)
-	{
+	if (request) {
 		free(request);
 		request = NULL;
 	}
@@ -43,8 +40,7 @@ static Device *finddevices(Device *device)
 	return listdevices;
 }
 
-int getdevices(Device *device)
-{
+int getdevices(Device *device) {
 	Device *listdevices = NULL;
 	listdevices = finddevices(device);
 	printDevice(listdevices);
@@ -52,8 +48,7 @@ int getdevices(Device *device)
 	return 0;
 }
 
-int deldevices(Device *device)
-{
+int deldevices(Device *device) {
 	Device *listdevices = NULL;
 	listdevices = finddevices(device);
 	printDevice(listdevices);
@@ -61,19 +56,16 @@ int deldevices(Device *device)
 	return 0;
 }
 
-
-int regdevice(Device *device)
-{
+int regdevice(Device *device) {
 	char *request = soapRegister(device);
 	device = NULL;
 
 	struct MemoryStruct response;
 	response.memory = malloc(1);
-	response.size=0;
-	
+	response.size = 0;
+
 	callCurl(request, &response);
-	if(request)
-	{
+	if (request) {
 		free(request);
 		request = NULL;
 	}

@@ -7,26 +7,26 @@
 
 int main(int argc, char **argv)
 {
-    xmlDocPtr doc = NULL;
-    xmlNodePtr envelope = NULL, body = NULL, searchdev = NULL, searchquery = NULL;
+	xmlDocPtr doc = NULL;
+	xmlNodePtr envelope = NULL, body = NULL, searchdev = NULL, searchquery = NULL;
 
-    LIBXML_TEST_VERSION;
+	LIBXML_TEST_VERSION;
 
-    doc = xmlNewDoc(BAD_CAST "1.0");
+	doc = xmlNewDoc(BAD_CAST "1.0");
 
 	/**
 	 * SOAP envelope for request
 	 */
 
-    envelope = xmlNewNode(NULL, BAD_CAST "Envelope");
+	envelope = xmlNewNode(NULL, BAD_CAST "Envelope");
 
 	xmlNsPtr nssoapenv = xmlNewNs(envelope, BAD_CAST"http://schemas.xmlsoap.org/soap/envelope/", BAD_CAST "soapenv");
 	xmlNsPtr nsnbi = xmlNewNs(envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4", BAD_CAST "nbi");
 	xmlSetNs(envelope, nssoapenv);
 
-    xmlDocSetRootElement(doc, envelope);
-    xmlNewChild(envelope, NULL, BAD_CAST "Header", NULL);
-    body = xmlNewNode(nssoapenv, BAD_CAST "Body");
+	xmlDocSetRootElement(doc, envelope);
+	xmlNewChild(envelope, NULL, BAD_CAST "Header", NULL);
+	body = xmlNewNode(nssoapenv, BAD_CAST "Body");
 	xmlAddChild(envelope, body);
 
 	/**
@@ -39,7 +39,6 @@ int main(int argc, char **argv)
 	xmlAddChild(searchdev, searchquery);
 	xmlNewChild(searchquery, NULL, BAD_CAST "ProductClass", BAD_CAST "Innbox V51");
 
-
 	xmlBufferPtr buf = xmlBufferCreate();
 	xmlSaveCtxtPtr ctx;
 
@@ -49,16 +48,16 @@ int main(int argc, char **argv)
 	xmlSaveClose(ctx);
 	puts((const char*)xmlBufferContent(buf));
 
-    /*free the document */
-    xmlFreeDoc(doc);
-    xmlCleanupParser();
-    xmlMemoryDump();
-    return(0);
+	/*free the document */
+	xmlFreeDoc(doc);
+	xmlCleanupParser();
+	xmlMemoryDump();
+	return(0);
 }
 
 #else
 int main(void) {
-    fprintf(stderr, "tree support not compiled in\n");
-    exit(1);
+	fprintf(stderr, "tree support not compiled in\n");
+	exit(1);
 }
 #endif

@@ -7,11 +7,9 @@
 #include "libxml/xmlmemory.h"
 #endif
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
 	int fail = -1;
-	if (argc != 2)
-	{
+	if (argc != 2) {
 		fprintf(stderr, "Usage: %s xmlfile\n", argv[0]);
 		return 2;
 	}
@@ -23,20 +21,17 @@ int main(int argc, char **argv)
 
 	{
 		xmlDocPtr doc = xmlReadFile(argv[1], 0, 0);
-		if (doc)
-		{
+		if (doc) {
 			xmlNodePtr last = xmlLastElementChild(xmlDocGetRootElement(doc));
-			if (last)
-			{
+			if (last) {
 				xmlBufferPtr buf = xmlBufferCreate();
-				if (buf)
-				{
-					xmlSaveCtxtPtr savectx = xmlSaveToBuffer(buf, 0, XML_SAVE_FORMAT);
-					if (savectx)
-					{
+				if (buf) {
+					xmlSaveCtxtPtr savectx = xmlSaveToBuffer(buf, 0,
+							XML_SAVE_FORMAT);
+					if (savectx) {
 						xmlSaveTree(savectx, last);
 						fail = 0 > xmlSaveClose(savectx);
-						puts((const char*)xmlBufferContent(buf));
+						puts((const char*) xmlBufferContent(buf));
 					}
 					xmlBufferFree(buf);
 				}

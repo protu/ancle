@@ -7,7 +7,7 @@
 
 int main(int argc, char **argv)
 {
-    xmlNodePtr searchdev = NULL, searchquery = NULL;
+	xmlNodePtr searchdev = NULL, searchquery = NULL;
 
 	xmlNsPtr nsnbi = xmlNewNs(searchdev, BAD_CAST "urn:www.acslite.com/nbi:1.4", BAD_CAST "nbi");
 	xmlSetNs(searchdev, nsnbi);
@@ -29,15 +29,15 @@ int main(int argc, char **argv)
 		xmlBufferFree(buf);
 	}
 
-    /*free the document */
+	/*free the document */
 	xmlFreeNs(nsnbi);
-    xmlCleanupParser();
-    return(0);
+	xmlCleanupParser();
+	return(0);
 }
 
 #else
 int main(void) {
-    fprintf(stderr, "tree support not compiled in\n");
-    exit(1);
+	fprintf(stderr, "tree support not compiled in\n");
+	exit(1);
 }
 #endif

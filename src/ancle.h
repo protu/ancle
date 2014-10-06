@@ -3,15 +3,16 @@
 
 #define ACS_NBI_URL "http://l01acslab.ot.hr/nbi.php"
 #define ACS_NBI_USERPWD  "nbiuser:nbipass"
+#define LOCAL_CONFIG "/.anclerc"
+#define GLOBAL_CONFIG "/etc/anclerc"
 
 extern int verbose;
 
 /**
  * Storage for retreived SOAP request
-**/
+ **/
 
-struct MemoryStruct
-{
+struct MemoryStruct {
 	char *memory;
 	size_t size;
 };
@@ -22,9 +23,8 @@ struct MemoryStruct
  * Maximum string size (without null) is 64 bytes for every
  * member of the structure exept oui which is 6
  *
-**/
-typedef struct DeviceStruct
-{
+ **/
+typedef struct DeviceStruct {
 	char *oui;
 	char *productclass;
 	char *serialnumber;
@@ -33,11 +33,19 @@ typedef struct DeviceStruct
 
 /**
  * Define Pointer for Device structure
-**/
+ **/
 
 typedef Device *DevicePtr;
 
+/**
+ * ACS server data
+ **/
 
+typedef struct acsdata {
+	char *url;
+	char *user;
+	char *pass;
+} acs;
 
 int getdevices(Device *device);
 int deldevices(Device *device);
@@ -51,5 +59,7 @@ Device *devicesFound(char *response, int total);
 void freeDevice(Device *deviceList);
 void printDevice(Device *deviceList);
 int createResult(char * response);
+void freeACS(acs *serverdata);
+int parse(acs *serverdata, char *userConfigFile);
 
 #endif
