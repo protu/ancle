@@ -12,12 +12,26 @@
 
 #define MAXLINE 250
 
-static int read(char *filename, acs *data);
-static int envSetting(acs *data);
-static void strip(char *string);
-static void freeACSData(acs *data);
+int read(char *filename, acs *data);
+int envSetting(acs *data);
+void strip(char *string);
+void freeACSData(acs *data);
 
-int parse(acs *serverdata, char *userConfigFile)
+static acs *serverdata;
+
+/* 
+ * parse return 0 if ACS is not parsed and 1 if it is
+ */
+
+acs *setACS()
+{
+	if (serverdata == NULL)
+		return 0;
+
+	return serverdata;
+}
+
+int parse(char *userConfigFile)
 {
 	char *file = NULL;
 	char *home;
@@ -55,15 +69,14 @@ int parse(acs *serverdata, char *userConfigFile)
 		;
 	else {
 		fprintf(stderr, "Can't set ACS server\n");
-		exit = 1;
+		exit = 0;
 	}
 
-	if (!exit)
+	if (!exit && verbose)
 		printf("URL: %s\nuser: %s\npass: %s\n", serverdata->url,
 				serverdata->user, serverdata->pass);
 
 	free(file);
-	freeACS(serverdata);
 
 	return exit;
 }
@@ -75,7 +88,7 @@ void freeACS(acs *serverdata)
 	serverdata = NULL;
 }
 
-static int envSetting(acs *serverdata)
+int envSetting(acs *serverdata)
 {
 	char *acsurl = getenv("ACS_URL");
 	char *acsuser = getenv("ACS_USER");
@@ -112,7 +125,7 @@ static int envSetting(acs *serverdata)
 	return 1;
 }
 
-static int read(char *file, acs * serverdata) {
+int read(char *file, acs * serverdata) {
 	FILE *cnf = NULL;
 	char *value;
 	char line[MAXLINE];
@@ -180,7 +193,7 @@ static int read(char *file, acs * serverdata) {
 	return 1;
 }
 
-static void strip(char * str)
+void strip(char * str)
 {
 	size_t len;
 	int i;
@@ -199,7 +212,7 @@ static void strip(char * str)
 	memmove(str, str + i, len + 1 - i);
 }
 
-static void freeACSData(acs *serverdata)
+void freeACSData(acs *serverdata)
 {
 	if (serverdata->url)
 		free(serverdata->url);

@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include "ancle.h"
 
-static Device *finddevices(Device *device) {
+Device *finddevices(Device *device) {
 
 	/*
 	 * Construct search SOAP request for sending to ACSLite's NBI
@@ -17,7 +17,12 @@ static Device *finddevices(Device *device) {
 	response.memory = malloc(1);
 	response.size = 0;
 
-	callCurl(request, &response);
+	if (!callCurl(request, &response))
+	{
+		fprintf(stderr, "Curl returned NULL\n");
+		return NULL;
+	}
+
 	if (request) {
 		free(request);
 		request = NULL;
@@ -42,17 +47,21 @@ static Device *finddevices(Device *device) {
 
 int getdevices(Device *device) {
 	Device *listdevices = NULL;
-	listdevices = finddevices(device);
-	printDevice(listdevices);
-	freeDevice(listdevices);
+	if((listdevices = finddevices(device)))
+	{
+		printDevice(listdevices);
+		freeDevice(listdevices);
+	}
 	return 0;
 }
 
 int deldevices(Device *device) {
 	Device *listdevices = NULL;
-	listdevices = finddevices(device);
-	printDevice(listdevices);
-	freeDevice(listdevices);
+	if((listdevices = finddevices(device)))
+	{
+		printDevice(listdevices);
+		freeDevice(listdevices);
+	}
 	return 0;
 }
 

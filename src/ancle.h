@@ -2,11 +2,10 @@
 #define ANCLE_DEF
 
 #define ACS_NBI_URL "http://l01acslab.ot.hr/nbi.php"
-#define ACS_NBI_USERPWD  "nbiuser:nbipass"
+#define ACS_NBI_USERPWD "nbiuser:nbipass"
 #define LOCAL_CONFIG "/.anclerc"
 #define GLOBAL_CONFIG "/etc/anclerc"
 
-extern int verbose;
 
 /**
  * Storage for retreived SOAP request
@@ -47,6 +46,16 @@ typedef struct acsdata {
 	char *pass;
 } acs;
 
+/**
+ * Globals
+ **/
+
+extern int verbose;
+
+/**
+ * Functions
+ **/
+
 int getdevices(Device *device);
 int deldevices(Device *device);
 int regdevice(Device *device);
@@ -60,6 +69,7 @@ void freeDevice(Device *deviceList);
 void printDevice(Device *deviceList);
 int createResult(char * response);
 void freeACS(acs *serverdata);
-int parse(acs *serverdata, char *userConfigFile);
+int parse(char *userConfigFile);
+acs *setACS();
 
 #endif

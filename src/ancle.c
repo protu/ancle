@@ -124,11 +124,19 @@ int main (int argc, char **argv)
 		}
 	}
 
-	if (parse (serverdata, userConfigFile))
+	/*
+	 * Parse ACS sever connection data
+	 */
+
+	if (parse (userConfigFile))
 	{
 		fprintf (stderr, "No ACS server defined\n");
 		return 1;
 	}
+
+	/*
+	 * Check if any action is defined and issue it
+	 */
 
 	switch (action)
 	{
@@ -183,12 +191,13 @@ int main (int argc, char **argv)
 			}
 			break;
 		default:
+			puts("No action requested!");
 			print_help ();
 	}
 
-
-	if (serverdata)
+	if ((serverdata = setACS()))
 		freeACS (serverdata);
+
 	free (dev);
 	dev = NULL;
 

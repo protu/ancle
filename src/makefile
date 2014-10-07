@@ -11,7 +11,7 @@ ancle: $(OBJ)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(LDLIBS)
 
-soaptest: soapreq.o callcurl.o parse.o
+soaptest: soapreq.o callcurl.o parse.o config.o
 	$(CC) $(CFLAGS) $@.c $^ -o $@ $(LDLIBS)
 
 soapreqtest: soapreq.o 

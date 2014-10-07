@@ -11,6 +11,8 @@
  * Otherwise, send search request to the ACS server and parse it
  **/
 
+int verbose = 1;
+
 int main(int argc, char **argv) {
 	// Point to given response string
 	char *responsePtr = NULL;
@@ -56,7 +58,7 @@ int main(int argc, char **argv) {
 		dev->serialnumber = NULL;
 		dev->description = NULL;
 
-		char *request = soapreq(dev);
+		char *request = soapSearch(dev);
 		free(dev);
 
 		printf("Request:\n%s\n", request);
@@ -64,6 +66,8 @@ int main(int argc, char **argv) {
 		struct MemoryStruct response;
 		response.memory = malloc(1);
 		response.size = 0;
+
+		parse("anclerc");
 
 		callCurl(request, &response);
 		free(request);
