@@ -12,7 +12,7 @@
 
 #define MAXLINE 250
 
-int read(char *filename, acs *data);
+static int readConfig(char *filename, acs *data);
 int envSetting(acs *data);
 void strip(char *string);
 void freeACSData(acs *data);
@@ -59,13 +59,13 @@ int parse(char *userConfigFile)
 	strcat(file, home);
 	strcat(file, fileName);
 
-	if (read(userConfigFile, serverdata))
+	if (readConfig(userConfigFile, serverdata))
 		;
 	else if (envSetting(serverdata))
 		;
-	else if (read(file, serverdata))
+	else if (readConfig(file, serverdata))
 		;
-	else if (read(GLOBAL_CONFIG, serverdata))
+	else if (readConfig(GLOBAL_CONFIG, serverdata))
 		;
 	else {
 		fprintf(stderr, "Can't set ACS server\n");
@@ -125,7 +125,7 @@ int envSetting(acs *serverdata)
 	return 1;
 }
 
-int read(char *file, acs * serverdata) {
+static int readConfig(char *file, acs * serverdata) {
 	FILE *cnf = NULL;
 	char *value;
 	char line[MAXLINE];

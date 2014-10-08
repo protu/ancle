@@ -28,7 +28,6 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
 int callCurl(char *request, struct MemoryStruct *response)
 {
 	int c;
-	char *userpwd = NULL;
 
 	acs *serverdata = NULL;
 	if ((serverdata=setACS()) == NULL)
@@ -36,16 +35,6 @@ int callCurl(char *request, struct MemoryStruct *response)
 		fprintf(stderr, "Curl can't get ACS server data\n");
 		return 0;
 	}
-
-	if((userpwd = malloc(((strlen(serverdata->url)+1) + (strlen(serverdata->pass)+1))*sizeof(char))) == NULL)
-	{
-		fprintf(stderr, "Can't create userpwd. Out of memory\n");
-		return 0;
-	}
-
-	strcpy(userpwd, serverdata->user);
-	strcat(userpwd, ":");
-	strcat(userpwd, serverdata->pass);
 
 	c = curl_global_init(CURL_GLOBAL_DEFAULT);
 	if (c != 0)
@@ -65,7 +54,8 @@ int callCurl(char *request, struct MemoryStruct *response)
 		curl_easy_setopt(curl, CURLOPT_POST, 1L);
 		curl_easy_setopt(curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 		curl_easy_setopt(curl, CURLOPT_URL, serverdata->url);
-		curl_easy_setopt(curl, CURLOPT_USERPWD, userpwd);
+		curl_easy_setopt(curl, CURLOPT_USERNAME, serverdata->user );
+		curl_easy_setopt(curl, CURLOPT_PASSWORD, serverdata->pass );
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, request);
 		curl_easy_setopt(curl, CURLOPT_USERAGENT, "libcurl-agent/1.0");
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
@@ -77,14 +67,12 @@ int callCurl(char *request, struct MemoryStruct *response)
 		{
 			fprintf(stderr, "curl_easy_perform() failed: %s\n",
 					curl_easy_strerror(res));
-			free(userpwd);
-			userpwd = NULL;
 			curl_easy_cleanup(curl);
 			curl_global_cleanup();
-			return (1);
+			return (0);
 		}
 		curl_easy_cleanup(curl);
 	}
 	curl_global_cleanup();
-	return (0);
+	return (1);
 }
