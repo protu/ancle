@@ -20,3 +20,4 @@ soapreqtest: soapreq.o
 clean:
 	-rm config soapreqtest soaptest ancle *.o
 
+.PHONY: all clean
