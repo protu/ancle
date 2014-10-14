@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
 		response.memory = malloc(1);
 		response.size = 0;
 
-		parse("anclerc");
+		parseConfig("anclerc");
 
 		callCurl(request, &response);
 		free(request);

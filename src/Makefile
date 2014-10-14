@@ -1,7 +1,7 @@
 CFLAGS = `pkg-config --cflags libcurl libxml-2.0` -g -Wall --std=c99
 LDLIBS = `pkg-config --libs libcurl libxml-2.0`
 CC = gcc
-OBJ = soapreq.o callcurl.o getdevices.o parse.o config.o
+OBJ = soapreq.o callcurl.o getdevices.o parseResponse.o config.o
 
 all: ancle
 	
@@ -11,7 +11,7 @@ ancle: $(OBJ)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(LDLIBS)
 
-soaptest: soapreq.o callcurl.o parse.o config.o
+soaptest: soapreq.o callcurl.o parseResponse.o config.o
 	$(CC) $(CFLAGS) $@.c $^ -o $@ $(LDLIBS)
 
 soapreqtest: soapreq.o 
