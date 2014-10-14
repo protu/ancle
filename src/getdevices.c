@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "ancle.h"
 
 /**
@@ -101,6 +102,7 @@ int
 regdevice(Device *device) {
     char *request = soapRegister(device);
     device = NULL;
+	xmlChar *keyword = NULL;
 
     struct MemoryStruct response;
     response.memory = malloc(1);
@@ -116,11 +118,17 @@ regdevice(Device *device) {
     if (verbose)
         printf("Response:\n%s\n", responsePtr);
 
-    if (createResult(responsePtr) == 0)
-        printf("Device successfully registered\n");
-    else
-        printf("Error registering device\n");
+	keyword = createResult(responsePtr);
+	if (strcmp("true", (char *) keyword) == 0)
+	  {
+        printf("Device successfully registred\n");
+	  }
+	else
+	  {
+		printf("%s\n", (char *) keyword);
+	  }
 
+	xmlFree(keyword);
     free(responsePtr);
     responsePtr = NULL;
     return 0;

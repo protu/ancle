@@ -7,6 +7,7 @@
 
 #ifndef ANCLE_DEF
 #define ANCLE_DEF
+#include <libxml/parser.h>
 
 #define ACS_NBI_URL "http://l01acslab.ot.hr/nbi.php"
 #define ACS_NBI_USERPWD "nbiuser:nbipass"
@@ -86,7 +87,7 @@ int totalRecords(char * response);
 Device *devicesFound(char *response, int total);
 void freeDevice(Device *deviceList);
 void printDevice(Device *deviceList);
-int createResult(char * response);
+xmlChar *createResult(char * response);
 
 /* config */
 
