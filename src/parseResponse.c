@@ -16,7 +16,7 @@
 #define keyCh (char *)key
 
 xmlDocPtr responseToDoc (char *response);
-static xmlXPathObjectPtr getnodeset (xmlDocPtr doc, xmlChar * xpath);
+static xmlXPathObjectPtr getnodeset (xmlDocPtr doc, const xmlChar * xpath);
 
 void
 freeDevice (Device * deviceList)
@@ -83,6 +83,32 @@ totalRecords (char *response)
   return (devicesNr);
 }
 
+static xmlChar *
+checkResult(xmlDocPtr rspDoc, const xmlChar *xpathExpr)
+{
+  xmlXPathObjectPtr result;
+  xmlChar *keyword = NULL;
+  int i;
+  xmlNodeSetPtr nodeset;
+  result = getnodeset (rspDoc, xpathExpr);
+  if (result)
+	{
+	  nodeset = result->nodesetval;
+	  for (i = 0; i < nodeset->nodeNr; i++)
+		{
+		  keyword = xmlNodeListGetString (rspDoc,
+										  nodeset->nodeTab[i]->xmlChildrenNode, 1);
+		}
+	  xmlXPathFreeObject (result);
+	  result = NULL;
+	}
+  if(keyword == NULL || strlen((char *)keyword) == 0)
+	return NULL;
+  else
+	return keyword;
+}
+
+
 xmlChar *
 createResult (char *response)
 {
@@ -90,44 +116,33 @@ createResult (char *response)
   xmlDocPtr rspDoc = responseToDoc (response);
 
   // Define search strings
-  xmlChar *xpathSuccess = (xmlChar *) "//Success";
-  xmlChar *xpathFaultDetail = (xmlChar *) "//detail";
+  const xmlChar *xpathSuccess = BAD_CAST "//Success";
+  const xmlChar *xpathFaultDetail = BAD_CAST "//detail";
 
-  xmlXPathObjectPtr result;
-  xmlChar *keyword;
-  int i;
-  xmlNodeSetPtr nodeset;
-  result = getnodeset (rspDoc, xpathSuccess);
-  if (result)
-    {
-      nodeset = result->nodesetval;
-      for (i = 0; i < nodeset->nodeNr; i++)
+  xmlChar *keyword = NULL;
+
+  keyword = checkResult(rspDoc, xpathSuccess);
+  if (keyword)
 	{
-	  keyword =
-	    xmlNodeListGetString (rspDoc,
-				  nodeset->nodeTab[i]->xmlChildrenNode, 1);
+	  xmlFreeDoc(rspDoc);
+	  rspDoc = NULL;
+	  xmlCleanupParser();
+	  return keyword;
 	}
-      xmlXPathFreeObject (result);
-      result = NULL;
-    }
-  else
+
+  keyword = checkResult(rspDoc, xpathFaultDetail);
+  if (keyword)
 	{
-	  result = getnodeset (rspDoc, xpathFaultDetail);
-	  if (result)
-		{
-		  nodeset = result->nodesetval;
-		  for (i = 0; i < nodeset->nodeNr; i++)
-		{
-		  keyword =
-			xmlNodeListGetString (rspDoc,
-					  nodeset->nodeTab[i]->xmlChildrenNode, 1);
-		}
-		  xmlXPathFreeObject (result);
-		  result = NULL;
-		}
+	  xmlFreeDoc(rspDoc);
+	  rspDoc = NULL;
+	  xmlCleanupParser();
+	  return keyword;
 	}
-    
-return keyword;
+
+  xmlFreeDoc(rspDoc);
+  rspDoc = NULL;
+  xmlCleanupParser();
+  return keyword;
 }
 
 /**
@@ -261,6 +276,7 @@ responseToDoc (char *response)
   xmlDocPtr doc;
   xmlChar *soapResponse;
   soapResponse = xmlCharStrdup (response);
+
   if (soapResponse == NULL)
     {
       fprintf (stderr, "Respose parsed to NULL\n");
@@ -275,6 +291,7 @@ responseToDoc (char *response)
       return 0;
     }
   xmlFree (soapResponse);
+  soapResponse = NULL;
 
   return doc;
 }
@@ -286,7 +303,7 @@ responseToDoc (char *response)
  *
  */
 static xmlXPathObjectPtr
-getnodeset (xmlDocPtr doc, xmlChar * xpath)
+getnodeset (xmlDocPtr doc, const xmlChar * xpath)
 {
   xmlXPathContextPtr context;
   xmlXPathObjectPtr result;
