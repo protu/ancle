@@ -76,6 +76,64 @@ getdevices(Device *device) {
     return 0;
 }
 
+static int
+rmDevice(Device *device)
+{
+  char *request = soapDelete(device);
+  xmlChar *keyword = NULL;
+  struct MemoryStruct response;
+  response.memory = malloc(1);
+  response.size = 0;
+
+  if (!callCurl(request, &response))
+	{
+	  fprintf(stderr, "Curl returned NULL\n");
+	  return 0;
+	}
+
+  if (request) {
+	  free(request);
+	  request = NULL;
+  }
+
+  char *responsePtr = response.memory;
+  if (verbose)
+	printf("Response:\n%s\n", responsePtr);
+
+  if ((keyword = createResult(responsePtr)) == NULL)
+	{
+	  fprintf(stderr, "Undefined response from server\n");
+	  free(response.memory);
+	  response.memory = NULL;
+	  responsePtr = NULL;
+	  return 0;
+	}
+
+  if (strcmp("true", (char *) keyword) == 0)
+	{
+	  printf("Device successfully deleted\n");
+	}
+  else
+	{
+	  printf("%s\n", (char *) keyword);
+	}
+
+  xmlFree(keyword);
+  keyword = NULL;
+  free(response.memory);
+  response.memory = NULL;
+  responsePtr = NULL;
+  return 0;
+}
+
+void
+rmDevices(Device *deviceList)
+{
+
+  while (deviceList->oui)
+	  rmDevice(deviceList++);
+}
+
 /**
  * Delete devices based on search paramter
  * delete is yet not completed and will act as
@@ -88,11 +146,12 @@ deldevices(Device *device) {
     Device *listdevices = NULL;
     if((listdevices = finddevices(device)))
     {
-        printDevice(listdevices);
+        rmDevices(listdevices);
         freeDevice(listdevices);
     }
     return 0;
 }
+  
 
 /**
  * Used to register new device into ACS server
