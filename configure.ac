@@ -1,0 +1,14 @@
+AC_INIT([ancle], [0.1], [protulipac@gmail.com])
+AC_CONFIG_SRCDIR([src/ancle.c])
+AM_INIT_AUTOMAKE([foreign -Wall -Werror])
+AC_PROG_CC
+AC_LANG([C])
+AC_HEADER_STDC
+AC_CONFIG_HEADERS([src/config.h])
+PKG_CHECK_MODULES([CURL], [libcurl])
+PKG_CHECK_MODULES([XML2], [libxml-2.0])
+AC_TYPE_SIZE_T
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([src/Makefile])
+AC_CONFIG_MACRO_DIR([m4])
+AC_OUTPUT
