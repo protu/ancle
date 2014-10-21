@@ -149,7 +149,8 @@ readConfig(char *file, acs * serverdata) {
     printf("Reading file: %s\n", file);
 
     while (1) {
-        fgets(line, MAXLINE, cnf);
+        if ((fgets(line, MAXLINE, cnf)) == NULL)
+			break;
         if (feof(cnf))
             break;
         if (strchr(line, '#') == line)
