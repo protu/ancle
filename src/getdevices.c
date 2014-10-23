@@ -51,8 +51,12 @@ finddevices(Device *device) {
 
     total = totalRecords(responsePtr);
     printf("Total records: %d\n", total);
-    Device *listdevices = NULL;
-    listdevices = devicesFound(responsePtr, total);
+	Device *listdevices = NULL;
+
+	if (total != 0)
+	  {
+		listdevices = devicesFound(responsePtr, total);
+	  }
 
     free(responsePtr);
     responsePtr = NULL;

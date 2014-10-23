@@ -161,8 +161,11 @@ main (int argc, char **argv)
         return 1;
     }
 
+	if(action)
+	  printf("Using ACS URL: %s\n\n", setACS()->url);
+
     /*
-     * Check if any action is defined and issue it
+     * Check what action is defined and issue it
      */
 
     switch (action)

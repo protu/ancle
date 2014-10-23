@@ -96,7 +96,8 @@ envSetting(acs *serverdata)
     char *acsuser = getenv("ACS_USER");
     char *acspass = getenv("ACS_PASS");
 
-    printf("Checking environment\n");
+	if(verbose)
+	  printf("Checking environment\n");
 
     if (acsurl && acsuser && acspass) {
         if ((serverdata->url = malloc((strlen(acsurl) + 1) * sizeof(char)))
@@ -146,7 +147,9 @@ readConfig(char *file, acs * serverdata) {
         fprintf(stderr, "Can't open file %s . %s\n", file, strerror(errno));
         return 0;
     }
-    printf("Reading file: %s\n", file);
+
+	if(verbose)
+	  printf("Reading file: %s\n", file);
 
     while (1) {
         if ((fgets(line, MAXLINE, cnf)) == NULL)

@@ -36,13 +36,16 @@ freeDevice (Device * deviceList)
 void
 printDevice (Device * deviceList)
 {
+  int i = 0;
+  printf ("\n--------------------------------------------------------------------------------\n");
   while (deviceList->oui)
     {
-      printf ("OUI: %s\n", deviceList->oui);
-      printf ("Product class: %s\n", deviceList->productclass);
-      printf ("Serial: %s\n", deviceList->serialnumber);
-      printf ("Description: %s\n", deviceList->description);
-      printf ("---------------\n");
+	  printf ("%d.\n", ++i);
+      printf ("  OUI:           %s\n", deviceList->oui);
+      printf ("  Product class: %s\n", deviceList->productclass);
+      printf ("  Serial:        %s\n", deviceList->serialnumber);
+      printf ("  Description:   %s\n", deviceList->description);
+      printf ("--------------------------------------------------------------------------------\n");
       deviceList++;
     }
 }
