@@ -111,7 +111,7 @@ rmDevice(Device *device)
 
   if (strcmp("true", (char *) keyword) == 0)
 	{
-	  printf("Device successfully deleted\n");
+	  printf("%s - %s - %s - %s - DELETED\n", device->description, device->serialnumber, device->oui, device->productclass);
 	}
   else
 	{
@@ -126,12 +126,22 @@ rmDevice(Device *device)
   return 0;
 }
 
+/**
+ * Call function to delete each individual device in the list.
+ * I will also add nubering in front of each device
+ * @ param deviceList pointer to array of devices
+ */
+
 void
 rmDevices(Device *deviceList)
 {
+  int i = 0;
 
   while (deviceList->oui)
+	{
+	  printf("%d. ", ++i);
 	  rmDevice(deviceList++);
+	}
 }
 
 /**
