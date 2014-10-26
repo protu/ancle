@@ -158,10 +158,28 @@ rmDevices(Device *deviceList)
 int
 deldevices(Device *device) {
     Device *listdevices = NULL;
-    if((listdevices = finddevices(device)))
+	listdevices = finddevices(device);
+    if(listdevices)
     {
-        rmDevices(listdevices);
-        freeDevice(listdevices);
+	  printf("Are you sure, you wan't to delete %d device(s)? (y/N):", totalRecords(NULL));
+	  int c = 0;
+
+	  if (yes)
+		{
+		  c = 'y';
+		  printf("%c\n", c);
+		}
+	  else
+		c = getchar();
+
+	  if (c == (int)'y' || c == (int)'Y')
+		{
+		  rmDevices(listdevices);
+		  freeDevice(listdevices);
+		}
+	  else
+		printf("Aborting!\n");
+
     }
     return 0;
 }

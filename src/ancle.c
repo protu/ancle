@@ -22,6 +22,12 @@
 
 int verbose = 0;
 
+/** @var int yes
+ * Assume yes switch. If set to 1, program will assume
+ * yes on all promits and skip them.
+ */
+int yes = 0;
+
 /**
  * Print help message to the console
  */
@@ -41,13 +47,13 @@ Commands:\n \
 -S --search\tsearch device\n \
 -D --delete\tdelete device\n \
 Options:\n \
--c --count=n\tnumber of devices to add or list\n \
 -o --oui=oui\tdevice's object unique identifier\n \
 -p --product-class=product class\tdevices's product class\n \
 -s --serial-number=serial number\tdevices's serial number\n \
--d --description=description\t\tdevice's description. It is possible to use SQL wildcard %\n \
+-d --description=description\t\tdevice's description.\n \
 Other:\n \
 -f --config-file\tuser alternative configuration file\n \
+-y --yes\t\tasume yes on all prompts\n \
 -v --verbose\tbe verbose\n";
 
     puts (help);
@@ -85,12 +91,12 @@ main (int argc, char **argv)
         { "register", no_argument, 0, 'R' },
         { "delete", no_argument, 0, 'D' },
         { "search", no_argument, 0, 'S' },
-        { "count", required_argument, 0, 'c' },
         { "product-class", required_argument, 0, 'p' },
         { "serial-number", required_argument, 0, 's' },
         { "oui", required_argument, 0, 'o' },
         { "description", required_argument, 0, 'd' },
         { "config-file", required_argument, 0, 'f' },
+        { "yes", no_argument, 0, 'y' },
         { "verbose", no_argument, 0, 'v' },
         { 0, 0, 0, 0 }
     };
@@ -105,7 +111,7 @@ main (int argc, char **argv)
 
     while (1)
     {
-        c = getopt_long (argc, argv, "VhRDSvc:o:p:s:d:f:", long_options, &option_index);
+        c = getopt_long (argc, argv, "VhRDSvyo:p:s:d:f:", long_options, &option_index);
         if (c == -1)
             break;
 
@@ -141,6 +147,9 @@ main (int argc, char **argv)
         case 'o':
             dev->oui = optarg;
             break;
+		case 'y':
+			yes = 1;
+			break;
         case 'v':
             verbose = 1;
             break;

@@ -64,6 +64,7 @@ typedef struct acsdata {
  **/
 
 extern int verbose;
+extern int yes;
 
 /**
  * Global functions

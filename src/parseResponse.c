@@ -50,9 +50,23 @@ printDevice (Device * deviceList)
     }
 }
 
+/**
+ * Function will parse number of devices from
+ * given SOAP response.
+ * If response is set to NULL, then it will return 
+ * last paresed, nuber of devies
+ */
+
 int
 totalRecords (char *response)
 {
+
+  static int devicesNr;
+
+  if (response == NULL)
+	return devicesNr;
+  else
+	devicesNr = 0;
 
   xmlDocPtr rspDoc = responseToDoc (response);
 
@@ -61,8 +75,9 @@ totalRecords (char *response)
 
   xmlXPathObjectPtr result;
   xmlChar *keyword;
-  int i, devicesNr;
+  int i;
   xmlNodeSetPtr nodeset;
+
   result = getnodeset (rspDoc, xpathTotal);
   if (result)
     {
