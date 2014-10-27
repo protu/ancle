@@ -1,0 +1,188 @@
+\hypertarget{config_8c}{\section{src/config.c File Reference}
+\label{config_8c}\index{src/config.\-c@{src/config.\-c}}
+}
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$ctype.\-h$>$}\\*
+{\ttfamily \#include $<$errno.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}ancle.\-h\char`\"{}}\\*
+Include dependency graph for config.\-c\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{config_8c_a3e937c42922f7601edb17b747602c471}{M\-A\-X\-L\-I\-N\-E}~250
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{config_8c_a2430ba930020227a368a1aa3bf9ef988}{read\-Config} (char $\ast$filename, \hyperlink{ancle_8h_a5ed88d98ea3988cba314b8b251c219ad}{acs} $\ast$data)
+\item 
+int \hyperlink{config_8c_aa0a7c2a9082f98e3911b06c6a06fc8bb}{env\-Setting} (\hyperlink{ancle_8h_a5ed88d98ea3988cba314b8b251c219ad}{acs} $\ast$data)
+\item 
+static void \hyperlink{config_8c_a69763ee67d1bc85f77ea1f7768a137f5}{strip} (char $\ast$string)
+\item 
+void \hyperlink{config_8c_a6223c55ff47830c4f4cd60e32e4621cc}{free\-A\-C\-S\-Data} (\hyperlink{ancle_8h_a5ed88d98ea3988cba314b8b251c219ad}{acs} $\ast$data)
+\item 
+\hyperlink{ancle_8h_a5ed88d98ea3988cba314b8b251c219ad}{acs} $\ast$ \hyperlink{config_8c_ad9a110009547c176b81af6d519486337}{set\-A\-C\-S} ()
+\item 
+int \hyperlink{config_8c_a6f119b6d25f7c3bf2c8aa4770f580a95}{parse\-Config} (char $\ast$user\-Config\-File)
+\item 
+void \hyperlink{config_8c_a14b70343e2bb126c728f3ad5e93cdd4d}{free\-A\-C\-S} (\hyperlink{ancle_8h_a5ed88d98ea3988cba314b8b251c219ad}{acs} $\ast$\hyperlink{config_8c_ad5fc7e01a4bb3aede66e4f99d8095724}{serverdata})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{ancle_8h_a5ed88d98ea3988cba314b8b251c219ad}{acs} $\ast$ \hyperlink{config_8c_ad5fc7e01a4bb3aede66e4f99d8095724}{serverdata}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{config_8c_a3e937c42922f7601edb17b747602c471}{\index{config.\-c@{config.\-c}!M\-A\-X\-L\-I\-N\-E@{M\-A\-X\-L\-I\-N\-E}}
+\index{M\-A\-X\-L\-I\-N\-E@{M\-A\-X\-L\-I\-N\-E}!config.c@{config.\-c}}
+\subsubsection[{M\-A\-X\-L\-I\-N\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-A\-X\-L\-I\-N\-E~250}}\label{config_8c_a3e937c42922f7601edb17b747602c471}
+
+
+Definition at line 32 of file config.\-c.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{config_8c_aa0a7c2a9082f98e3911b06c6a06fc8bb}{\index{config.\-c@{config.\-c}!env\-Setting@{env\-Setting}}
+\index{env\-Setting@{env\-Setting}!config.c@{config.\-c}}
+\subsubsection[{env\-Setting}]{\setlength{\rightskip}{0pt plus 5cm}int env\-Setting (
+\begin{DoxyParamCaption}
+\item[{{\bf acs} $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{config_8c_aa0a7c2a9082f98e3911b06c6a06fc8bb}
+
+
+Definition at line 112 of file config.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=256pt]{config_8c_aa0a7c2a9082f98e3911b06c6a06fc8bb_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config_8c_a14b70343e2bb126c728f3ad5e93cdd4d}{\index{config.\-c@{config.\-c}!free\-A\-C\-S@{free\-A\-C\-S}}
+\index{free\-A\-C\-S@{free\-A\-C\-S}!config.c@{config.\-c}}
+\subsubsection[{free\-A\-C\-S}]{\setlength{\rightskip}{0pt plus 5cm}void free\-A\-C\-S (
+\begin{DoxyParamCaption}
+\item[{{\bf acs} $\ast$}]{serverdata}
+\end{DoxyParamCaption}
+)}}\label{config_8c_a14b70343e2bb126c728f3ad5e93cdd4d}
+
+
+Definition at line 104 of file config.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{config_8c_a14b70343e2bb126c728f3ad5e93cdd4d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config_8c_a6223c55ff47830c4f4cd60e32e4621cc}{\index{config.\-c@{config.\-c}!free\-A\-C\-S\-Data@{free\-A\-C\-S\-Data}}
+\index{free\-A\-C\-S\-Data@{free\-A\-C\-S\-Data}!config.c@{config.\-c}}
+\subsubsection[{free\-A\-C\-S\-Data}]{\setlength{\rightskip}{0pt plus 5cm}void free\-A\-C\-S\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf acs} $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{config_8c_a6223c55ff47830c4f4cd60e32e4621cc}
+
+
+Definition at line 243 of file config.\-c.
+
+\hypertarget{config_8c_a6f119b6d25f7c3bf2c8aa4770f580a95}{\index{config.\-c@{config.\-c}!parse\-Config@{parse\-Config}}
+\index{parse\-Config@{parse\-Config}!config.c@{config.\-c}}
+\subsubsection[{parse\-Config}]{\setlength{\rightskip}{0pt plus 5cm}int parse\-Config (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{user\-Config\-File}
+\end{DoxyParamCaption}
+)}}\label{config_8c_a6f119b6d25f7c3bf2c8aa4770f580a95}
+
+
+Definition at line 53 of file config.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{config_8c_a6f119b6d25f7c3bf2c8aa4770f580a95_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config_8c_a2430ba930020227a368a1aa3bf9ef988}{\index{config.\-c@{config.\-c}!read\-Config@{read\-Config}}
+\index{read\-Config@{read\-Config}!config.c@{config.\-c}}
+\subsubsection[{read\-Config}]{\setlength{\rightskip}{0pt plus 5cm}static int read\-Config (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{filename, }
+\item[{{\bf acs} $\ast$}]{data}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{config_8c_a2430ba930020227a368a1aa3bf9ef988}
+
+
+Definition at line 151 of file config.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=256pt]{config_8c_a2430ba930020227a368a1aa3bf9ef988_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{config_8c_ad9a110009547c176b81af6d519486337}{\index{config.\-c@{config.\-c}!set\-A\-C\-S@{set\-A\-C\-S}}
+\index{set\-A\-C\-S@{set\-A\-C\-S}!config.c@{config.\-c}}
+\subsubsection[{set\-A\-C\-S}]{\setlength{\rightskip}{0pt plus 5cm}{\bf acs}$\ast$ set\-A\-C\-S (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{config_8c_ad9a110009547c176b81af6d519486337}
+
+
+Definition at line 44 of file config.\-c.
+
+\hypertarget{config_8c_a69763ee67d1bc85f77ea1f7768a137f5}{\index{config.\-c@{config.\-c}!strip@{strip}}
+\index{strip@{strip}!config.c@{config.\-c}}
+\subsubsection[{strip}]{\setlength{\rightskip}{0pt plus 5cm}static void strip (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{string}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{config_8c_a69763ee67d1bc85f77ea1f7768a137f5}
+
+
+Definition at line 223 of file config.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{config_8c_ad5fc7e01a4bb3aede66e4f99d8095724}{\index{config.\-c@{config.\-c}!serverdata@{serverdata}}
+\index{serverdata@{serverdata}!config.c@{config.\-c}}
+\subsubsection[{serverdata}]{\setlength{\rightskip}{0pt plus 5cm}{\bf acs}$\ast$ serverdata\hspace{0.3cm}{\ttfamily [static]}}}\label{config_8c_ad5fc7e01a4bb3aede66e4f99d8095724}
+
+
+Definition at line 38 of file config.\-c.
+

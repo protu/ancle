@@ -1,0 +1,6 @@
+<map id="soapRegister" name="soapRegister">
+<area shape="rect" id="node2" href="$soapreq_8c.html#a802159bda8b4e31d293a0159f530d3b5" title="soapStart" alt="" coords="159,5,238,32"/>
+<area shape="rect" id="node3" href="$soapreq_8c.html#a645ad135c8b17c1b0b651e588344d439" title="addRegister" alt="" coords="153,56,245,83"/>
+<area shape="rect" id="node5" href="$soapreq_8c.html#acc6ae04b17e834afa30c4d8f72dadbf2" title="docToChar" alt="" coords="155,107,242,133"/>
+<area shape="rect" id="node4" href="$soapreq_8c.html#a8773317d857a3be3f8c8f60daa1a95d5" title="registerdevice" alt="" coords="294,56,397,83"/>
+</map>

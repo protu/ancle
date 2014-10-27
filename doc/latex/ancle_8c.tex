@@ -1,0 +1,96 @@
+\hypertarget{ancle_8c}{\section{src/ancle.c File Reference}
+\label{ancle_8c}\index{src/ancle.\-c@{src/ancle.\-c}}
+}
+
+
+Ancle -\/ A\-C\-S\-Light N\-B\-I Command Line interface main function.  
+
+
+{\ttfamily \#include \char`\"{}config.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$ctype.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$getopt.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}ancle.\-h\char`\"{}}\\*
+Include dependency graph for ancle.\-c\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ancle_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{ancle_8c_a853216ac51aa181669ff4d3de74058a7}{print\-\_\-help} ()
+\item 
+int \hyperlink{ancle_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{ancle_8c_a0b2caeb4b6f130be43e5a2f0267dd453}{verbose} = 0
+\item 
+int \hyperlink{ancle_8c_a7716c14cb5f92e9c141cdec3b980fa70}{yes} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Ancle -\/ A\-C\-S\-Light N\-B\-I Command Line interface main function. This file contain main class will only take command line input paramteres and run function to parse configuration file. 
+
+Definition in file \hyperlink{ancle_8c_source}{ancle.\-c}.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{ancle_8c_a3c04138a5bfe5d72780bb7e82a18e627}{\index{ancle.\-c@{ancle.\-c}!main@{main}}
+\index{main@{main}!ancle.c@{ancle.\-c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{ancle_8c_a3c04138a5bfe5d72780bb7e82a18e627}
+Just to get default input parameters and fire up required action for devices 
+
+Definition at line 87 of file ancle.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ancle_8c_a3c04138a5bfe5d72780bb7e82a18e627_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{ancle_8c_a853216ac51aa181669ff4d3de74058a7}{\index{ancle.\-c@{ancle.\-c}!print\-\_\-help@{print\-\_\-help}}
+\index{print\-\_\-help@{print\-\_\-help}!ancle.c@{ancle.\-c}}
+\subsubsection[{print\-\_\-help}]{\setlength{\rightskip}{0pt plus 5cm}void print\-\_\-help (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{ancle_8c_a853216ac51aa181669ff4d3de74058a7}
+Print help message to the console 
+
+Definition at line 55 of file ancle.\-c.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{ancle_8c_a0b2caeb4b6f130be43e5a2f0267dd453}{\index{ancle.\-c@{ancle.\-c}!verbose@{verbose}}
+\index{verbose@{verbose}!ancle.c@{ancle.\-c}}
+\subsubsection[{verbose}]{\setlength{\rightskip}{0pt plus 5cm}int verbose = 0}}\label{ancle_8c_a0b2caeb4b6f130be43e5a2f0267dd453}
+Verbose switch. If set to 1, program will output debug informations to the standard output 
+
+Definition at line 42 of file ancle.\-c.
+
+\hypertarget{ancle_8c_a7716c14cb5f92e9c141cdec3b980fa70}{\index{ancle.\-c@{ancle.\-c}!yes@{yes}}
+\index{yes@{yes}!ancle.c@{ancle.\-c}}
+\subsubsection[{yes}]{\setlength{\rightskip}{0pt plus 5cm}int yes = 0}}\label{ancle_8c_a7716c14cb5f92e9c141cdec3b980fa70}
+Assume yes switch. If set to 1, program will assume yes on all promits and skip them. 
+
+Definition at line 48 of file ancle.\-c.
+

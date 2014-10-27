@@ -1,6 +1,6 @@
 AC_INIT([ancle], [0.1], [protulipac@gmail.com])
 AC_CONFIG_SRCDIR([src/ancle.c])
-AM_INIT_AUTOMAKE([foreign -Wall -Werror])
+AM_INIT_AUTOMAKE
 AC_PROG_CC
 AC_LANG([C])
 AC_HEADER_STDC

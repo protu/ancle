@@ -1,0 +1,62 @@
+\hypertarget{callcurl_8c}{\section{src/callcurl.c File Reference}
+\label{callcurl_8c}\index{src/callcurl.\-c@{src/callcurl.\-c}}
+}
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$curl/curl.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}ancle.\-h\char`\"{}}\\*
+Include dependency graph for callcurl.\-c\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{callcurl_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static size\-\_\-t \hyperlink{callcurl_8c_a4ddd5eda46f8b61317f95145c87e653d}{Write\-Memory\-Callback} (void $\ast$contents, size\-\_\-t size, size\-\_\-t nmemb, void $\ast$userp)
+\item 
+int \hyperlink{callcurl_8c_ad8651923e11cb43708fd39c49eebdf0a}{call\-Curl} (char $\ast$request, struct \hyperlink{structMemoryStruct}{Memory\-Struct} $\ast$response)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{callcurl_8c_ad8651923e11cb43708fd39c49eebdf0a}{\index{callcurl.\-c@{callcurl.\-c}!call\-Curl@{call\-Curl}}
+\index{call\-Curl@{call\-Curl}!callcurl.c@{callcurl.\-c}}
+\subsubsection[{call\-Curl}]{\setlength{\rightskip}{0pt plus 5cm}int call\-Curl (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{request, }
+\item[{struct {\bf Memory\-Struct} $\ast$}]{response}
+\end{DoxyParamCaption}
+)}}\label{callcurl_8c_ad8651923e11cb43708fd39c49eebdf0a}
+
+
+Definition at line 47 of file callcurl.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=280pt]{callcurl_8c_ad8651923e11cb43708fd39c49eebdf0a_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{callcurl_8c_a4ddd5eda46f8b61317f95145c87e653d}{\index{callcurl.\-c@{callcurl.\-c}!Write\-Memory\-Callback@{Write\-Memory\-Callback}}
+\index{Write\-Memory\-Callback@{Write\-Memory\-Callback}!callcurl.c@{callcurl.\-c}}
+\subsubsection[{Write\-Memory\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}static size\-\_\-t Write\-Memory\-Callback (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{contents, }
+\item[{size\-\_\-t}]{size, }
+\item[{size\-\_\-t}]{nmemb, }
+\item[{void $\ast$}]{userp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{callcurl_8c_a4ddd5eda46f8b61317f95145c87e653d}
+
+
+Definition at line 26 of file callcurl.\-c.
+

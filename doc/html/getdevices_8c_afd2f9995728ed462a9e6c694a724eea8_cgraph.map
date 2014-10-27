@@ -1,0 +1,24 @@
+<map id="deldevices" name="deldevices">
+<area shape="rect" id="node2" href="$getdevices_8c.html#a2d6daf84c5db44bf9be326fe509bc3f6" title="finddevices" alt="" coords="272,348,360,375"/>
+<area shape="rect" id="node11" href="$ancle_8h.html#a3b80bdc3ecd85632e86c4b286a9ae0cb" title="totalRecords" alt="" coords="412,411,508,437"/>
+<area shape="rect" id="node16" href="$getdevices_8c.html#a6252181e611b9815d732526fabf19e0a" title="rmDevices" alt="" coords="139,285,224,312"/>
+<area shape="rect" id="node23" href="$ancle_8h.html#a394816653aa6d95dc72852c256d6ba5d" title="freeDevice" alt="" coords="139,449,224,476"/>
+<area shape="rect" id="node3" href="$ancle_8h.html#aa41a6f9e907badaf2f5e79a4873b100d" title="soapSearch" alt="" coords="415,145,505,172"/>
+<area shape="rect" id="node8" href="$ancle_8h.html#ad8651923e11cb43708fd39c49eebdf0a" title="callCurl" alt="" coords="427,309,493,336"/>
+<area shape="rect" id="node14" href="$ancle_8h.html#a2ff61ace0f1a1cc1f7264758b5628152" title="devicesFound" alt="" coords="409,360,511,387"/>
+<area shape="rect" id="node4" href="$soapreq_8c.html#a802159bda8b4e31d293a0159f530d3b5" title="soapStart" alt="" coords="597,56,675,83"/>
+<area shape="rect" id="node5" href="$soapreq_8c.html#a0b662a6ab9047c3f16c613fd17a0b7d9" title="addSearch" alt="" coords="594,157,678,184"/>
+<area shape="rect" id="node7" href="$soapreq_8c.html#acc6ae04b17e834afa30c4d8f72dadbf2" title="docToChar" alt="" coords="593,107,679,133"/>
+<area shape="rect" id="node6" href="$soapreq_8c.html#a5ecb94209408af70fe0c7468f9ff3bb8" title="customsearch" alt="" coords="760,157,864,184"/>
+<area shape="rect" id="node9" href="$ancle_8h.html#ad9a110009547c176b81af6d519486337" title="setACS" alt="" coords="602,259,670,285"/>
+<area shape="rect" id="node10" href="$callcurl_8c.html#a4ddd5eda46f8b61317f95145c87e653d" title="WriteMemoryCallback" alt="" coords="561,309,711,336"/>
+<area shape="rect" id="node12" href="$parseResponse_8c.html#a4bf56b0027dfa0fa5b148f2910ee077d" title="Create xmlDoc from character response. " alt="" coords="579,411,693,437"/>
+<area shape="rect" id="node13" href="$parseResponse_8c.html#aaccce875f191c49dd5b9d191a6a6b7d7" title="search document using xpath and return pointer " alt="" coords="769,335,855,361"/>
+<area shape="rect" id="node15" href="$parseResponse_8c.html#aac7556792151fa24981329c5fa418d7a" title="Fill array of devices from XML response. " alt="" coords="585,360,687,387"/>
+<area shape="rect" id="node17" href="$getdevices_8c.html#a41694bbdf78727c2630dff9991b7bad0" title="rmDevice" alt="" coords="277,272,355,299"/>
+<area shape="rect" id="node18" href="$ancle_8h.html#ae4dfd1828415dc5cd6480501dc30cebb" title="soapDelete" alt="" coords="416,69,504,96"/>
+<area shape="rect" id="node21" href="$ancle_8h.html#a1c9c9a63964a0d0f06e35ce4cba3006d" title="createResult" alt="" coords="412,259,508,285"/>
+<area shape="rect" id="node19" href="$soapreq_8c.html#a11d758253f9c9eee66919446b484b538" title="addDelete" alt="" coords="595,5,677,32"/>
+<area shape="rect" id="node20" href="$soapreq_8c.html#a34f832bd02ca2a0702ae0c1e3d73fe05" title="deletedevice" alt="" coords="765,5,859,32"/>
+<area shape="rect" id="node22" href="$parseResponse_8c.html#acb703259b535250e82898c7bfc1e367d" title="checkResult" alt="" coords="589,208,683,235"/>
+</map>

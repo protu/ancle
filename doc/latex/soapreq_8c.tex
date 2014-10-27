@@ -1,0 +1,253 @@
+\hypertarget{soapreq_8c}{\section{src/soapreq.c File Reference}
+\label{soapreq_8c}\index{src/soapreq.\-c@{src/soapreq.\-c}}
+}
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$libxml/parser.\-h$>$}\\*
+{\ttfamily \#include $<$libxml/tree.\-h$>$}\\*
+{\ttfamily \#include $<$libxml/xmlsave.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}ancle.\-h\char`\"{}}\\*
+Include dependency graph for soapreq.\-c\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{soapreq_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{soapreq_8c_a97f6b0df98de89dd3abbb0cb8fffef3b}{D\-E\-V\-\_\-\-P\-A\-R\-A\-M\-\_\-\-S\-I\-Z\-E}~4
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static char $\ast$ \hyperlink{soapreq_8c_acc6ae04b17e834afa30c4d8f72dadbf2}{doc\-To\-Char} (xml\-Doc\-Ptr doc)
+\item 
+static int \hyperlink{soapreq_8c_a8773317d857a3be3f8c8f60daa1a95d5}{registerdevice} (xml\-Node\-Ptr registerdevice, \hyperlink{ancle_8h_aead9b1579971376ebe2b29db3aacec7a}{Device\-Ptr} dev)
+\item 
+static int \hyperlink{soapreq_8c_a34f832bd02ca2a0702ae0c1e3d73fe05}{deletedevice} (xml\-Node\-Ptr \hyperlink{soapreq_8c_a8773317d857a3be3f8c8f60daa1a95d5}{registerdevice}, \hyperlink{ancle_8h_aead9b1579971376ebe2b29db3aacec7a}{Device\-Ptr} dev)
+\item 
+static int \hyperlink{soapreq_8c_a5ecb94209408af70fe0c7468f9ff3bb8}{customsearch} (xml\-Node\-Ptr customsearch, \hyperlink{ancle_8h_aead9b1579971376ebe2b29db3aacec7a}{Device\-Ptr} dev)
+\item 
+static xml\-Doc\-Ptr \hyperlink{soapreq_8c_a802159bda8b4e31d293a0159f530d3b5}{soap\-Start} ()
+\item 
+static void \hyperlink{soapreq_8c_a0b662a6ab9047c3f16c613fd17a0b7d9}{add\-Search} (xml\-Doc\-Ptr doc, \hyperlink{ancle_8h_aead9b1579971376ebe2b29db3aacec7a}{Device\-Ptr} dev)
+\item 
+static void \hyperlink{soapreq_8c_a645ad135c8b17c1b0b651e588344d439}{add\-Register} (xml\-Doc\-Ptr doc, \hyperlink{ancle_8h_aead9b1579971376ebe2b29db3aacec7a}{Device\-Ptr} dev)
+\item 
+static void \hyperlink{soapreq_8c_a11d758253f9c9eee66919446b484b538}{add\-Delete} (xml\-Doc\-Ptr doc, \hyperlink{ancle_8h_aead9b1579971376ebe2b29db3aacec7a}{Device\-Ptr} dev)
+\item 
+char $\ast$ \hyperlink{soapreq_8c_aa41a6f9e907badaf2f5e79a4873b100d}{soap\-Search} (\hyperlink{ancle_8h_aead9b1579971376ebe2b29db3aacec7a}{Device\-Ptr} dev)
+\item 
+char $\ast$ \hyperlink{soapreq_8c_ab45638d882a6836701b6afc3afa64c83}{soap\-Register} (\hyperlink{ancle_8h_aead9b1579971376ebe2b29db3aacec7a}{Device\-Ptr} dev)
+\item 
+char $\ast$ \hyperlink{soapreq_8c_ae4dfd1828415dc5cd6480501dc30cebb}{soap\-Delete} (\hyperlink{ancle_8h_aead9b1579971376ebe2b29db3aacec7a}{Device\-Ptr} dev)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{soapreq_8c_a97f6b0df98de89dd3abbb0cb8fffef3b}{\index{soapreq.\-c@{soapreq.\-c}!D\-E\-V\-\_\-\-P\-A\-R\-A\-M\-\_\-\-S\-I\-Z\-E@{D\-E\-V\-\_\-\-P\-A\-R\-A\-M\-\_\-\-S\-I\-Z\-E}}
+\index{D\-E\-V\-\_\-\-P\-A\-R\-A\-M\-\_\-\-S\-I\-Z\-E@{D\-E\-V\-\_\-\-P\-A\-R\-A\-M\-\_\-\-S\-I\-Z\-E}!soapreq.c@{soapreq.\-c}}
+\subsubsection[{D\-E\-V\-\_\-\-P\-A\-R\-A\-M\-\_\-\-S\-I\-Z\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-V\-\_\-\-P\-A\-R\-A\-M\-\_\-\-S\-I\-Z\-E~4}}\label{soapreq_8c_a97f6b0df98de89dd3abbb0cb8fffef3b}
+
+
+Definition at line 28 of file soapreq.\-c.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{soapreq_8c_a11d758253f9c9eee66919446b484b538}{\index{soapreq.\-c@{soapreq.\-c}!add\-Delete@{add\-Delete}}
+\index{add\-Delete@{add\-Delete}!soapreq.c@{soapreq.\-c}}
+\subsubsection[{add\-Delete}]{\setlength{\rightskip}{0pt plus 5cm}static void add\-Delete (
+\begin{DoxyParamCaption}
+\item[{xml\-Doc\-Ptr}]{doc, }
+\item[{{\bf Device\-Ptr}}]{dev}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{soapreq_8c_a11d758253f9c9eee66919446b484b538}
+
+
+Definition at line 218 of file soapreq.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=250pt]{soapreq_8c_a11d758253f9c9eee66919446b484b538_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{soapreq_8c_a645ad135c8b17c1b0b651e588344d439}{\index{soapreq.\-c@{soapreq.\-c}!add\-Register@{add\-Register}}
+\index{add\-Register@{add\-Register}!soapreq.c@{soapreq.\-c}}
+\subsubsection[{add\-Register}]{\setlength{\rightskip}{0pt plus 5cm}static void add\-Register (
+\begin{DoxyParamCaption}
+\item[{xml\-Doc\-Ptr}]{doc, }
+\item[{{\bf Device\-Ptr}}]{dev}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{soapreq_8c_a645ad135c8b17c1b0b651e588344d439}
+
+
+Definition at line 204 of file soapreq.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=264pt]{soapreq_8c_a645ad135c8b17c1b0b651e588344d439_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{soapreq_8c_a0b662a6ab9047c3f16c613fd17a0b7d9}{\index{soapreq.\-c@{soapreq.\-c}!add\-Search@{add\-Search}}
+\index{add\-Search@{add\-Search}!soapreq.c@{soapreq.\-c}}
+\subsubsection[{add\-Search}]{\setlength{\rightskip}{0pt plus 5cm}static void add\-Search (
+\begin{DoxyParamCaption}
+\item[{xml\-Doc\-Ptr}]{doc, }
+\item[{{\bf Device\-Ptr}}]{dev}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{soapreq_8c_a0b662a6ab9047c3f16c613fd17a0b7d9}
+
+
+Definition at line 187 of file soapreq.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=258pt]{soapreq_8c_a0b662a6ab9047c3f16c613fd17a0b7d9_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{soapreq_8c_a5ecb94209408af70fe0c7468f9ff3bb8}{\index{soapreq.\-c@{soapreq.\-c}!customsearch@{customsearch}}
+\index{customsearch@{customsearch}!soapreq.c@{soapreq.\-c}}
+\subsubsection[{customsearch}]{\setlength{\rightskip}{0pt plus 5cm}static int customsearch (
+\begin{DoxyParamCaption}
+\item[{xml\-Node\-Ptr}]{customsearch, }
+\item[{{\bf Device\-Ptr}}]{dev}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{soapreq_8c_a5ecb94209408af70fe0c7468f9ff3bb8}
+
+
+Definition at line 98 of file soapreq.\-c.
+
+\hypertarget{soapreq_8c_a34f832bd02ca2a0702ae0c1e3d73fe05}{\index{soapreq.\-c@{soapreq.\-c}!deletedevice@{deletedevice}}
+\index{deletedevice@{deletedevice}!soapreq.c@{soapreq.\-c}}
+\subsubsection[{deletedevice}]{\setlength{\rightskip}{0pt plus 5cm}static int deletedevice (
+\begin{DoxyParamCaption}
+\item[{xml\-Node\-Ptr}]{registerdevice, }
+\item[{{\bf Device\-Ptr}}]{dev}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{soapreq_8c_a34f832bd02ca2a0702ae0c1e3d73fe05}
+
+
+Definition at line 84 of file soapreq.\-c.
+
+\hypertarget{soapreq_8c_acc6ae04b17e834afa30c4d8f72dadbf2}{\index{soapreq.\-c@{soapreq.\-c}!doc\-To\-Char@{doc\-To\-Char}}
+\index{doc\-To\-Char@{doc\-To\-Char}!soapreq.c@{soapreq.\-c}}
+\subsubsection[{doc\-To\-Char}]{\setlength{\rightskip}{0pt plus 5cm}static char$\ast$ doc\-To\-Char (
+\begin{DoxyParamCaption}
+\item[{xml\-Doc\-Ptr}]{doc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{soapreq_8c_acc6ae04b17e834afa30c4d8f72dadbf2}
+
+
+Definition at line 31 of file soapreq.\-c.
+
+\hypertarget{soapreq_8c_a8773317d857a3be3f8c8f60daa1a95d5}{\index{soapreq.\-c@{soapreq.\-c}!registerdevice@{registerdevice}}
+\index{registerdevice@{registerdevice}!soapreq.c@{soapreq.\-c}}
+\subsubsection[{registerdevice}]{\setlength{\rightskip}{0pt plus 5cm}static int registerdevice (
+\begin{DoxyParamCaption}
+\item[{xml\-Node\-Ptr}]{registerdevice, }
+\item[{{\bf Device\-Ptr}}]{dev}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{soapreq_8c_a8773317d857a3be3f8c8f60daa1a95d5}
+
+
+Definition at line 61 of file soapreq.\-c.
+
+\hypertarget{soapreq_8c_ae4dfd1828415dc5cd6480501dc30cebb}{\index{soapreq.\-c@{soapreq.\-c}!soap\-Delete@{soap\-Delete}}
+\index{soap\-Delete@{soap\-Delete}!soapreq.c@{soapreq.\-c}}
+\subsubsection[{soap\-Delete}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ soap\-Delete (
+\begin{DoxyParamCaption}
+\item[{{\bf Device\-Ptr}}]{dev}
+\end{DoxyParamCaption}
+)}}\label{soapreq_8c_ae4dfd1828415dc5cd6480501dc30cebb}
+
+
+Definition at line 250 of file soapreq.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{soapreq_8c_ae4dfd1828415dc5cd6480501dc30cebb_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{soapreq_8c_ab45638d882a6836701b6afc3afa64c83}{\index{soapreq.\-c@{soapreq.\-c}!soap\-Register@{soap\-Register}}
+\index{soap\-Register@{soap\-Register}!soapreq.c@{soapreq.\-c}}
+\subsubsection[{soap\-Register}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ soap\-Register (
+\begin{DoxyParamCaption}
+\item[{{\bf Device\-Ptr}}]{dev}
+\end{DoxyParamCaption}
+)}}\label{soapreq_8c_ab45638d882a6836701b6afc3afa64c83}
+
+
+Definition at line 241 of file soapreq.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{soapreq_8c_ab45638d882a6836701b6afc3afa64c83_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{soapreq_8c_aa41a6f9e907badaf2f5e79a4873b100d}{\index{soapreq.\-c@{soapreq.\-c}!soap\-Search@{soap\-Search}}
+\index{soap\-Search@{soap\-Search}!soapreq.c@{soapreq.\-c}}
+\subsubsection[{soap\-Search}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ soap\-Search (
+\begin{DoxyParamCaption}
+\item[{{\bf Device\-Ptr}}]{dev}
+\end{DoxyParamCaption}
+)}}\label{soapreq_8c_aa41a6f9e907badaf2f5e79a4873b100d}
+
+
+Definition at line 232 of file soapreq.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{soapreq_8c_aa41a6f9e907badaf2f5e79a4873b100d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{soapreq_8c_a802159bda8b4e31d293a0159f530d3b5}{\index{soapreq.\-c@{soapreq.\-c}!soap\-Start@{soap\-Start}}
+\index{soap\-Start@{soap\-Start}!soapreq.c@{soapreq.\-c}}
+\subsubsection[{soap\-Start}]{\setlength{\rightskip}{0pt plus 5cm}static xml\-Doc\-Ptr soap\-Start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{soapreq_8c_a802159bda8b4e31d293a0159f530d3b5}
+
+
+Definition at line 164 of file soapreq.\-c.
+

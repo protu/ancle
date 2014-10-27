@@ -1,0 +1,249 @@
+\hypertarget{parseResponse_8c}{\section{src/parse\-Response.c File Reference}
+\label{parseResponse_8c}\index{src/parse\-Response.\-c@{src/parse\-Response.\-c}}
+}
+
+
+Functions for parsing responses from A\-C\-S server.  
+
+
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$libxml/parser.\-h$>$}\\*
+{\ttfamily \#include $<$libxml/xpath.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}ancle.\-h\char`\"{}}\\*
+Include dependency graph for parse\-Response.\-c\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{parseResponse_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{parseResponse_8c_a150e491ed3072f46d5e7119bb2b0f50c}{name\-Ch}~(char $\ast$)name
+\item 
+\#define \hyperlink{parseResponse_8c_ac766be29a3aa214e6020186035034e08}{key\-Ch}~(char $\ast$)key
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+xml\-Doc\-Ptr \hyperlink{parseResponse_8c_a4bf56b0027dfa0fa5b148f2910ee077d}{response\-To\-Doc} (char $\ast$response)
+\begin{DoxyCompactList}\small\item\em Create xml\-Doc from character response. \end{DoxyCompactList}\item 
+static xml\-X\-Path\-Object\-Ptr \hyperlink{parseResponse_8c_aaccce875f191c49dd5b9d191a6a6b7d7}{getnodeset} (xml\-Doc\-Ptr doc, const xml\-Char $\ast$xpath)
+\begin{DoxyCompactList}\small\item\em search document using xpath and return pointer \end{DoxyCompactList}\item 
+void \hyperlink{parseResponse_8c_a394816653aa6d95dc72852c256d6ba5d}{free\-Device} (\hyperlink{ancle_8h_a6a13e1aa33261886e04371dfaa52d523}{Device} $\ast$device\-List)
+\item 
+void \hyperlink{parseResponse_8c_a7934291746b2e8dfed15ffb92af49abd}{print\-Device} (\hyperlink{ancle_8h_a6a13e1aa33261886e04371dfaa52d523}{Device} $\ast$device\-List)
+\item 
+int \hyperlink{parseResponse_8c_a3b80bdc3ecd85632e86c4b286a9ae0cb}{total\-Records} (char $\ast$response)
+\item 
+static xml\-Char $\ast$ \hyperlink{parseResponse_8c_acb703259b535250e82898c7bfc1e367d}{check\-Result} (xml\-Doc\-Ptr rsp\-Doc, const xml\-Char $\ast$xpath\-Expr)
+\item 
+xml\-Char $\ast$ \hyperlink{parseResponse_8c_a1c9c9a63964a0d0f06e35ce4cba3006d}{create\-Result} (char $\ast$response)
+\item 
+static void \hyperlink{parseResponse_8c_aac7556792151fa24981329c5fa418d7a}{parse\-Devices} (xml\-Doc $\ast$doc, xml\-Node $\ast$a\-\_\-node, \hyperlink{ancle_8h_a6a13e1aa33261886e04371dfaa52d523}{Device} $\ast$device\-List)
+\begin{DoxyCompactList}\small\item\em Fill array of devices from X\-M\-L response. \end{DoxyCompactList}\item 
+\hyperlink{ancle_8h_a6a13e1aa33261886e04371dfaa52d523}{Device} $\ast$ \hyperlink{parseResponse_8c_a2ff61ace0f1a1cc1f7264758b5628152}{devices\-Found} (char $\ast$response, int total)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Functions for parsing responses from A\-C\-S server. Collections of functions that will parse responses that A\-C\-S server return as answer to given request. 
+
+Definition in file \hyperlink{parseResponse_8c_source}{parse\-Response.\-c}.
+
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{parseResponse_8c_ac766be29a3aa214e6020186035034e08}{\index{parse\-Response.\-c@{parse\-Response.\-c}!key\-Ch@{key\-Ch}}
+\index{key\-Ch@{key\-Ch}!parseResponse.c@{parse\-Response.\-c}}
+\subsubsection[{key\-Ch}]{\setlength{\rightskip}{0pt plus 5cm}\#define key\-Ch~(char $\ast$)key}}\label{parseResponse_8c_ac766be29a3aa214e6020186035034e08}
+
+
+Definition at line 35 of file parse\-Response.\-c.
+
+\hypertarget{parseResponse_8c_a150e491ed3072f46d5e7119bb2b0f50c}{\index{parse\-Response.\-c@{parse\-Response.\-c}!name\-Ch@{name\-Ch}}
+\index{name\-Ch@{name\-Ch}!parseResponse.c@{parse\-Response.\-c}}
+\subsubsection[{name\-Ch}]{\setlength{\rightskip}{0pt plus 5cm}\#define name\-Ch~(char $\ast$)name}}\label{parseResponse_8c_a150e491ed3072f46d5e7119bb2b0f50c}
+
+
+Definition at line 34 of file parse\-Response.\-c.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{parseResponse_8c_acb703259b535250e82898c7bfc1e367d}{\index{parse\-Response.\-c@{parse\-Response.\-c}!check\-Result@{check\-Result}}
+\index{check\-Result@{check\-Result}!parseResponse.c@{parse\-Response.\-c}}
+\subsubsection[{check\-Result}]{\setlength{\rightskip}{0pt plus 5cm}static xml\-Char$\ast$ check\-Result (
+\begin{DoxyParamCaption}
+\item[{xml\-Doc\-Ptr}]{rsp\-Doc, }
+\item[{const xml\-Char $\ast$}]{xpath\-Expr}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{parseResponse_8c_acb703259b535250e82898c7bfc1e367d}
+
+
+Definition at line 124 of file parse\-Response.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{parseResponse_8c_acb703259b535250e82898c7bfc1e367d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{parseResponse_8c_a1c9c9a63964a0d0f06e35ce4cba3006d}{\index{parse\-Response.\-c@{parse\-Response.\-c}!create\-Result@{create\-Result}}
+\index{create\-Result@{create\-Result}!parseResponse.c@{parse\-Response.\-c}}
+\subsubsection[{create\-Result}]{\setlength{\rightskip}{0pt plus 5cm}xml\-Char$\ast$ create\-Result (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{response}
+\end{DoxyParamCaption}
+)}}\label{parseResponse_8c_a1c9c9a63964a0d0f06e35ce4cba3006d}
+
+
+Definition at line 150 of file parse\-Response.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{parseResponse_8c_a1c9c9a63964a0d0f06e35ce4cba3006d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{parseResponse_8c_a2ff61ace0f1a1cc1f7264758b5628152}{\index{parse\-Response.\-c@{parse\-Response.\-c}!devices\-Found@{devices\-Found}}
+\index{devices\-Found@{devices\-Found}!parseResponse.c@{parse\-Response.\-c}}
+\subsubsection[{devices\-Found}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Device}$\ast$ devices\-Found (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{response, }
+\item[{int}]{total}
+\end{DoxyParamCaption}
+)}}\label{parseResponse_8c_a2ff61ace0f1a1cc1f7264758b5628152}
+
+
+Definition at line 272 of file parse\-Response.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=280pt]{parseResponse_8c_a2ff61ace0f1a1cc1f7264758b5628152_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{parseResponse_8c_a394816653aa6d95dc72852c256d6ba5d}{\index{parse\-Response.\-c@{parse\-Response.\-c}!free\-Device@{free\-Device}}
+\index{free\-Device@{free\-Device}!parseResponse.c@{parse\-Response.\-c}}
+\subsubsection[{free\-Device}]{\setlength{\rightskip}{0pt plus 5cm}void free\-Device (
+\begin{DoxyParamCaption}
+\item[{{\bf Device} $\ast$}]{device\-List}
+\end{DoxyParamCaption}
+)}}\label{parseResponse_8c_a394816653aa6d95dc72852c256d6ba5d}
+
+
+Definition at line 41 of file parse\-Response.\-c.
+
+\hypertarget{parseResponse_8c_aaccce875f191c49dd5b9d191a6a6b7d7}{\index{parse\-Response.\-c@{parse\-Response.\-c}!getnodeset@{getnodeset}}
+\index{getnodeset@{getnodeset}!parseResponse.c@{parse\-Response.\-c}}
+\subsubsection[{getnodeset}]{\setlength{\rightskip}{0pt plus 5cm}static xml\-X\-Path\-Object\-Ptr getnodeset (
+\begin{DoxyParamCaption}
+\item[{xml\-Doc\-Ptr}]{doc, }
+\item[{const xml\-Char $\ast$}]{xpath}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{parseResponse_8c_aaccce875f191c49dd5b9d191a6a6b7d7}
+
+
+search document using xpath and return pointer 
+
+
+\begin{DoxyParams}{Parameters}
+{\em doc} & document to search \\
+\hline
+{\em xpath} & search xpath expression \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 343 of file parse\-Response.\-c.
+
+\hypertarget{parseResponse_8c_aac7556792151fa24981329c5fa418d7a}{\index{parse\-Response.\-c@{parse\-Response.\-c}!parse\-Devices@{parse\-Devices}}
+\index{parse\-Devices@{parse\-Devices}!parseResponse.c@{parse\-Response.\-c}}
+\subsubsection[{parse\-Devices}]{\setlength{\rightskip}{0pt plus 5cm}static void parse\-Devices (
+\begin{DoxyParamCaption}
+\item[{xml\-Doc $\ast$}]{doc, }
+\item[{xml\-Node $\ast$}]{a\-\_\-node, }
+\item[{{\bf Device} $\ast$}]{device\-List}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{parseResponse_8c_aac7556792151fa24981329c5fa418d7a}
+
+
+Fill array of devices from X\-M\-L response. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em doc} & X\-M\-L document \\
+\hline
+{\em a\-\_\-node} & starting node in X\-M\-L document  device\-List dynamic array that will be filled\\
+\hline
+\end{DoxyParams}
+Used to parse given X\-M\-L document to fill the device list array. Function use recursion to go deep into document and pickup all device's parametes. 
+
+Definition at line 197 of file parse\-Response.\-c.
+
+\hypertarget{parseResponse_8c_a7934291746b2e8dfed15ffb92af49abd}{\index{parse\-Response.\-c@{parse\-Response.\-c}!print\-Device@{print\-Device}}
+\index{print\-Device@{print\-Device}!parseResponse.c@{parse\-Response.\-c}}
+\subsubsection[{print\-Device}]{\setlength{\rightskip}{0pt plus 5cm}void print\-Device (
+\begin{DoxyParamCaption}
+\item[{{\bf Device} $\ast$}]{device\-List}
+\end{DoxyParamCaption}
+)}}\label{parseResponse_8c_a7934291746b2e8dfed15ffb92af49abd}
+
+
+Definition at line 56 of file parse\-Response.\-c.
+
+\hypertarget{parseResponse_8c_a4bf56b0027dfa0fa5b148f2910ee077d}{\index{parse\-Response.\-c@{parse\-Response.\-c}!response\-To\-Doc@{response\-To\-Doc}}
+\index{response\-To\-Doc@{response\-To\-Doc}!parseResponse.c@{parse\-Response.\-c}}
+\subsubsection[{response\-To\-Doc}]{\setlength{\rightskip}{0pt plus 5cm}xml\-Doc\-Ptr response\-To\-Doc (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{response}
+\end{DoxyParamCaption}
+)}}\label{parseResponse_8c_a4bf56b0027dfa0fa5b148f2910ee077d}
+
+
+Create xml\-Doc from character response. 
+
+
+
+Definition at line 311 of file parse\-Response.\-c.
+
+\hypertarget{parseResponse_8c_a3b80bdc3ecd85632e86c4b286a9ae0cb}{\index{parse\-Response.\-c@{parse\-Response.\-c}!total\-Records@{total\-Records}}
+\index{total\-Records@{total\-Records}!parseResponse.c@{parse\-Response.\-c}}
+\subsubsection[{total\-Records}]{\setlength{\rightskip}{0pt plus 5cm}int total\-Records (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{response}
+\end{DoxyParamCaption}
+)}}\label{parseResponse_8c_a3b80bdc3ecd85632e86c4b286a9ae0cb}
+Function will parse number of devices from given S\-O\-A\-P response. If response is set to N\-U\-L\-L, then it will return last paresed, nuber of devies 
+
+Definition at line 80 of file parse\-Response.\-c.
+
+
+
+Here is the call graph for this function\-:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=274pt]{parseResponse_8c_a3b80bdc3ecd85632e86c4b286a9ae0cb_cgraph}
+\end{center}
+\end{figure}
+
+
