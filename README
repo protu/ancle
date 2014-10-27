@@ -1,3 +1,12 @@
+
+Copy 'anclerc' file to one of the following locations:
+
+/etc/anclerc
+$HOME/.anclerc
+
+and modify it to suite you needs.
+
+
 To create doxygen documentation, run:
 `doxygen Doxyfile` in distribution directory
 
