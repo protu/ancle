@@ -1,8 +1,0 @@
-<map id="src/ancle.h" name="src/ancle.h">
-<area shape="rect" id="node2" href="$ancle_8c.html" title="Ancle &#45; ACSLight NBI Command Line interface main function. " alt="" coords="5,80,91,107"/>
-<area shape="rect" id="node3" href="$callcurl_8c.html" title="src/callcurl.c" alt="" coords="116,80,212,107"/>
-<area shape="rect" id="node4" href="$config_8c.html" title="src/config.c" alt="" coords="236,80,327,107"/>
-<area shape="rect" id="node5" href="$getdevices_8c.html" title="Hold basic actions for searching, registring and deleting devices. " alt="" coords="351,80,469,107"/>
-<area shape="rect" id="node6" href="$parseResponse_8c.html" title="Functions for parsing responses from ACS server. " alt="" coords="495,80,641,107"/>
-<area shape="rect" id="node7" href="$soapreq_8c.html" title="src/soapreq.c" alt="" coords="665,80,767,107"/>
-</map>
