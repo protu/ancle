@@ -1,0 +1,6 @@
+# ANCLE configuration file
+# Define ACS's NBI URL and credentials
+#
+url = http://localhost/nbi.php
+pass = nbipass
+user = nbiuser
