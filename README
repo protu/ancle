@@ -1,0 +1,3 @@
+To create doxygen documentation, run:
+`doxygen Doxyfile` in distribution directory
+
