@@ -80,6 +80,19 @@ typedef struct acsdata {
 } acs;
 
 /**
+ * Flag structure
+ **/
+typedef struct flagStruct {
+	string *name;
+	string *value;
+} flag;
+
+/**
+ * Define Pointer for Flag structure
+ **/
+typedef flag *flagPtr
+
+/**
  * Globals
  **/
 

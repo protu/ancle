@@ -95,6 +95,12 @@ deletedevice (xmlNodePtr registerdevice, DevicePtr dev)
 }
 
 static int
+setDeviceFlag (xmlNodePtr registerdevice, DevicePtr dev, flagPtr flag)
+{
+  //TODO
+}
+
+static int
 customsearch (xmlNodePtr customsearch, DevicePtr dev)
 {
 // Select fields to display
@@ -225,6 +231,20 @@ addDelete (xmlDocPtr doc, DevicePtr dev)
 	      BAD_CAST "nbi");
   xmlNodePtr sd = xmlNewNode (nsnbi, BAD_CAST "DeleteDevice");
   deletedevice (sd, dev);
+  xmlAddChild (body, sd);
+}
+
+static void
+addSetFlag (xmlDocPtr doc, DevicePtr dev)
+{
+  xmlNodePtr envelope = xmlDocGetRootElement (doc);
+  xmlNodePtr body = xmlLastElementChild (envelope);
+  xmlNsPtr
+    nsnbi =
+    xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4",
+	      BAD_CAST "nbi");
+  xmlNodePtr sd = xmlNewNode (nsnbi, BAD_CAST "SetDeviceFlags");
+  setDeviceFlag(sd, dev, flag);
   xmlAddChild (body, sd);
 }
 
