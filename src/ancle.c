@@ -71,11 +71,13 @@ Options:\n \
 -p --product-class=product class\tdevices's product class\n \
 -s --serial-number=serial number\tdevices's serial number\n \
 -d --description=description\t\tdevice's description.\n \
+-n --name\t\tflag or attribute name.\n \
+-v --value\t\tflag or attribute value.\n \
 Other:\n \
 -f --config-file\tuser alternative configuration file\n \
 -y --yes\t\tasume yes on all prompts\n \
--v --verbose\tbe verbose\n";
-
+--verbose\tbe verbose\n";
+	
     puts (help);
 }
 
@@ -117,7 +119,10 @@ main (int argc, char **argv)
         { "description", required_argument, 0, 'd' },
         { "config-file", required_argument, 0, 'f' },
         { "yes", no_argument, 0, 'y' },
-        { "verbose", no_argument, 0, 'v' },
+        { "verbose", no_argument, &verbose, 1 },
+		{ "flag", no_argument, 0, 'F' },
+		{ "name", required_argument, 0, 'n' },
+		{ "value", required_argument, 0, 'v' },
         { 0, 0, 0, 0 }
     };
 
@@ -170,9 +175,6 @@ main (int argc, char **argv)
 		case 'y':
 			yes = 1;
 			break;
-        case 'v':
-            verbose = 1;
-            break;
         case ':':
         case '?':
             print_help ();
