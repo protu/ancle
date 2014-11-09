@@ -97,7 +97,22 @@ deletedevice (xmlNodePtr registerdevice, DevicePtr dev)
 static int
 setDeviceFlag (xmlNodePtr registerdevice, DevicePtr dev, flagPtr flag)
 {
-  //TODO
+  xmlNodePtr deviceID = xmlNewNode (NULL, BAD_CAST "DeviceID");
+  xmlAddChild (registerdevice, deviceID);
+  xmlNewChild (deviceID, NULL, BAD_CAST "OUI", BAD_CAST dev->oui);
+  xmlNewChild (deviceID, NULL, BAD_CAST "ProductClass",
+	       BAD_CAST dev->productclass);
+  xmlNewChild (deviceID, NULL, BAD_CAST "SerialNumber",
+	       BAD_CAST dev->serialnumber);
+
+  xmlNodePtr flagValueList = xmlNewNode (NULL, BAD_CAST "FlagValueList");
+  xmlAddChild (registerdevice, flagValueList);
+  xmlNodePtr flagValueStruct = xmlNewNode (NULL, BAD_CAST "FlagValueStruct");
+  xmlNewChild (flagValueStruct, NULL, BAD_CAST "Name", BAD_CAST flag->name);
+  xmlNewChild (flagValueStruct, NULL, BAD_CAST "Value", BAD_CAST flag->value);
+  xmlAddChild (flagValueList, flagValueStruct);
+
+  return (0);
 }
 
 static int
@@ -226,23 +241,22 @@ addDelete (xmlDocPtr doc, DevicePtr dev)
   xmlNodePtr envelope = xmlDocGetRootElement (doc);
   xmlNodePtr body = xmlLastElementChild (envelope);
   xmlNsPtr
-    nsnbi =
-    xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4",
-	      BAD_CAST "nbi");
+	nsnbi =
+	xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4",
+			  BAD_CAST "nbi");
   xmlNodePtr sd = xmlNewNode (nsnbi, BAD_CAST "DeleteDevice");
   deletedevice (sd, dev);
   xmlAddChild (body, sd);
 }
 
 static void
-addSetFlag (xmlDocPtr doc, DevicePtr dev)
+addSetFlag (xmlDocPtr doc, DevicePtr dev, flagPtr flag)
 {
   xmlNodePtr envelope = xmlDocGetRootElement (doc);
   xmlNodePtr body = xmlLastElementChild (envelope);
   xmlNsPtr
-    nsnbi =
-    xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4",
-	      BAD_CAST "nbi");
+	nsnbi =
+	xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4", BAD_CAST "nbi");
   xmlNodePtr sd = xmlNewNode (nsnbi, BAD_CAST "SetDeviceFlags");
   setDeviceFlag(sd, dev, flag);
   xmlAddChild (body, sd);
@@ -274,3 +288,13 @@ soapDelete (DevicePtr dev)
   addDelete (doc, dev);
   return docToChar (doc);
 }
+
+char *
+soapAddFlag (DevicePtr dev, flagPtr flag)
+{
+  xmlDocPtr doc = NULL;
+  doc = soapStart();
+  addSetFlag(doc, dev, flag);
+  return docToChar (doc);
+}
+

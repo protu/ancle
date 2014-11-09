@@ -65,6 +65,7 @@ Commands:\n \
 -R --register\tregister device\n \
 -S --search\tsearch device\n \
 -D --delete\tdelete device\n \
+-F --flag\tflag operations\n \
 Options:\n \
 -o --oui=oui\tdevice's object unique identifier\n \
 -p --product-class=product class\tdevices's product class\n \
