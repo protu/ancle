@@ -83,8 +83,8 @@ typedef struct acsdata {
  * Flag structure
  **/
 typedef struct flagStruct {
-	string *name;
-	string *value;
+	char *name;
+	char *value;
 } flag;
 
 /**

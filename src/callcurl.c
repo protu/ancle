@@ -38,7 +38,7 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
 	mem->memory[mem->size] = 0;
 	if (verbose)
 	{
-		printf("Memory size: %d\n", mem->size);
+		printf("Memory size: %d\n", (int)mem->size);
 		printf("Memory value: %s\n", mem->memory);
 	}
 	return realsize;
