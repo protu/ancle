@@ -109,7 +109,8 @@ setDeviceFlag (xmlNodePtr registerdevice, DevicePtr dev, flagPtr flag)
   xmlAddChild (registerdevice, flagValueList);
   xmlNodePtr flagValueStruct = xmlNewNode (NULL, BAD_CAST "FlagValueStruct");
   xmlNewChild (flagValueStruct, NULL, BAD_CAST "Name", BAD_CAST flag->name);
-  xmlNewChild (flagValueStruct, NULL, BAD_CAST "Value", BAD_CAST flag->value);
+  if (flag->value)
+    xmlNewChild (flagValueStruct, NULL, BAD_CAST "Value", BAD_CAST flag->value);
   xmlAddChild (flagValueList, flagValueStruct);
 
   return (0);

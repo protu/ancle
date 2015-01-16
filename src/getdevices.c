@@ -276,51 +276,51 @@ addFlag (Device *device, flag *deviceFlag)
 {
   char *request = soapAddFlag (device, deviceFlag);
   xmlChar *keyword = NULL;
-    struct MemoryStruct response;
-    response.memory = malloc (1);
-    response.size = 0;
+  struct MemoryStruct response;
+  response.memory = malloc (1);
+  response.size = 0;
 
-    if (!callCurl (request, &response))
-      {
-        fprintf (stderr, "Curl returned NULL\n");
-        return 0;
-      }
+  if (!callCurl (request, &response))
+    {
+      fprintf (stderr, "Curl returned NULL\n");
+      return 0;
+    }
 
-    if (request)
-      {
-        free (request);
-        request = NULL;
-      }
+  if (request)
+    {
+      free (request);
+      request = NULL;
+    }
 
-    char *responsePtr = response.memory;
-    if (verbose)
-      printf ("Response:\n%s\n", responsePtr);
+  char *responsePtr = response.memory;
+  if (verbose)
+    printf ("Response:\n%s\n", responsePtr);
 
-    if ((keyword = createResult (responsePtr)) == NULL)
-      {
-        fprintf (stderr, "Undefined response from server\n");
-        free (response.memory);
-        response.memory = NULL;
-        responsePtr = NULL;
-        return 0;
-      }
+  if ((keyword = createResult (responsePtr)) == NULL)
+    {
+      fprintf (stderr, "Undefined response from server\n");
+      free (response.memory);
+      response.memory = NULL;
+      responsePtr = NULL;
+      return 0;
+    }
 
-    if (strcmp ("true", (char *) keyword) == 0)
-      {
-        printf ("%s - %s - %s - %s - FLAGED\n", device->description,
-  	      device->serialnumber, device->oui, device->productclass);
-      }
-    else
-      {
-        printf ("%s\n", (char *) keyword);
-      }
+  if (strcmp ("true", (char *) keyword) == 0)
+    {
+      printf ("%s - %s - %s - %s - FLAGED\n", device->description,
+	      device->serialnumber, device->oui, device->productclass);
+    }
+  else
+    {
+      printf ("%s\n", (char *) keyword);
+    }
 
-    xmlFree (keyword);
-    keyword = NULL;
-    free (response.memory);
-    response.memory = NULL;
-    responsePtr = NULL;
-    return 0;
+  xmlFree (keyword);
+  keyword = NULL;
+  free (response.memory);
+  response.memory = NULL;
+  responsePtr = NULL;
+  return 0;
 }
 /**
  * @brief Set or get value of the flag from found devices
@@ -331,30 +331,23 @@ addFlag (Device *device, flag *deviceFlag)
 int
 flagdevices (Device *device, flag *deviceFlag)
 {
-  if (deviceFlag->value == NULL)
+  Device *listdevices = NULL;
+  listdevices = finddevices (device);
+  if (listdevices)
     {
-      //TODO
-    }
-  else
-    {
-      Device *listdevices = NULL;
-      listdevices = finddevices (device);
-      if (listdevices)
+      Device *firstDev;
+      firstDev = listdevices;
+      int i = 0;
+      while (listdevices->oui)
 	{
-	  Device *firstDev;
-	  firstDev = listdevices;
-	  int i = 0;
-	  while (listdevices->oui)
-	    {
-	      printf ("%d. ", ++i);
-	      addFlag (listdevices++, deviceFlag);
-	    }
-	  freeDevice (firstDev);
+	  printf ("%d. ", ++i);
+	  addFlag (listdevices++, deviceFlag);
 	}
+      freeDevice (firstDev);
       deviceFlag->value = NULL;
       deviceFlag->name = NULL;
-      free(deviceFlag->value);
-      free(deviceFlag->name);
+      free (deviceFlag->value);
+      free (deviceFlag->name);
     }
   free (deviceFlag);
   return 0;
