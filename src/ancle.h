@@ -90,7 +90,7 @@ typedef struct flagStruct {
 /**
  * Define Pointer for Flag structure
  **/
-typedef flag *flagPtr
+typedef flag *flagPtr;
 
 /**
  * Globals
@@ -107,6 +107,7 @@ extern int yes;
 int getdevices(Device *device);
 int deldevices(Device *device);
 int regdevice(Device *device);
+int flagdevices(Device *device, flag *deviceFlag);
 
 /* callcurl */
 
