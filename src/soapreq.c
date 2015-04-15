@@ -20,7 +20,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlsave.h>
 #include "ancle.h"
@@ -117,7 +116,7 @@ setDeviceFlag (xmlNodePtr registerdevice, DevicePtr dev, flagPtr flag)
 }
 
 static int
-customsearch (xmlNodePtr customsearch, DevicePtr dev)
+customsearch (xmlNodePtr customsearch, DevicePtr dev, flagPtr flp)
 {
 // Select fields to display
   xmlNodePtr selectfields = xmlNewNode (NULL, BAD_CAST "SelectFields");
@@ -176,6 +175,14 @@ customsearch (xmlNodePtr customsearch, DevicePtr dev)
       xmlNewChild (any, NULL, BAD_CAST "Operator", BAD_CAST "LIKE");
       xmlNewChild (any, NULL, BAD_CAST "Value", BAD_CAST dev->description);
     }
+  if (flp->name)
+    {
+      required = xmlNewChild(criteria, NULL, BAD_CAST "Required", NULL);
+      any = xmlNewChild (required, NULL, BAD_CAST "Any", NULL);
+      xmlNewChild (any, NULL, BAD_CAST "Type", BAD_CAST "Flag");
+      xmlNewChild (any, NULL, BAD_CAST "Name", BAD_CAST flp->name);
+      xmlNewChild (any, NULL, BAD_CAST "Operator", BAD_CAST "IS NOT NULL");
+    }
 
   xmlAddChild (customsearch, criteria);
 
@@ -206,7 +213,7 @@ soapStart ()
 }
 
 static void
-addSearch (xmlDocPtr doc, DevicePtr dev)
+addSearch (xmlDocPtr doc, DevicePtr dev, flagPtr flp)
 {
   xmlNodePtr envelope = xmlDocGetRootElement (doc);
   xmlNodePtr body = xmlLastElementChild (envelope);
@@ -215,7 +222,7 @@ addSearch (xmlDocPtr doc, DevicePtr dev)
     xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4",
 	      BAD_CAST "nbi");
   xmlNodePtr sd = xmlNewNode (nsnbi, BAD_CAST "CustomSearch");
-  customsearch (sd, dev);
+  customsearch (sd, dev, flp);
   if (sd)
     xmlAddChild (body, sd);
   else
@@ -264,11 +271,11 @@ addSetFlag (xmlDocPtr doc, DevicePtr dev, flagPtr flag)
 }
 
 char *
-soapSearch (DevicePtr dev)
+soapSearch (DevicePtr dev, flagPtr flp)
 {
   xmlDocPtr doc = NULL;
   doc = soapStart ();
-  addSearch (doc, dev);
+  addSearch (doc, dev, flp);
   return docToChar (doc);
 }
 
@@ -291,11 +298,11 @@ soapDelete (DevicePtr dev)
 }
 
 char *
-soapAddFlag (DevicePtr dev, flagPtr flag)
+soapAddFlag (DevicePtr dev, flagPtr flp)
 {
   xmlDocPtr doc = NULL;
   doc = soapStart();
-  addSetFlag(doc, dev, flag);
+  addSetFlag(doc, dev, flp);
   return docToChar (doc);
 }
 

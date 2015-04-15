@@ -55,25 +55,25 @@ void
 print_help ()
 {
   char *help =
-      " \
+      "\n \
 ancle - ACSLite command line interface. \n\n \
 ancle will use ACSLite's NBI for communication and can be used \
 from remote host to retrieve information from it\n\n \
-Usage: ancle command [options]\n \
+Usage: ancle command [options]\n\n \
 Commands:\n \
 -h --help\tprint this help\n \
 -V --version\tprint version and exit\n \
 -R --register\tregister device\n \
 -S --search\tsearch device\n \
 -D --delete\tdelete device\n \
--F --flag\tflag operations\n \
+-F --flag\tflag operations\n\n \
 Options:\n \
--o --oui=oui\tdevice's object unique identifier\n \
--p --product-class=product class\tdevices's product class\n \
--s --serial-number=serial number\tdevices's serial number\n \
--d --description=description\t\tdevice's description.\n \
--n --name\t\tflag or attribute name.\n \
--v --value\t\tflag or attribute value.\n \
+-o --oui\t\tdevice's object unique identifier\n \
+-p --product-class \tdevices's product class\n \
+-s --serial-number \tdevices's serial number\n \
+-d --description \tdevice's description.\n \
+-n --flag-name\t\tflag or attribute name.\n \
+-v --flag-value \tflag or attribute value.\n\n \
 Other:\n \
 -f --config-file\tuser alternative configuration file\n \
 -y --yes\t\tasume yes on all prompts\n \
@@ -129,8 +129,8 @@ main (int argc, char **argv)
       { "yes", no_argument, 0, 'y' },
       { "verbose", no_argument, &verbose, 1 },
       { "flag", no_argument, 0, 'F' },
-      { "name", required_argument, 0, 'n' },
-      { "value", required_argument, 0, 'v' },
+      { "flag-name", required_argument, 0, 'n' },
+      { "flag-value", required_argument, 0, 'v' },
       { 0, 0, 0, 0 } };
 
   int option_index = 0;
@@ -265,7 +265,7 @@ main (int argc, char **argv)
 	}
       else
 	{
-	  getdevices (dev);
+	  getdevices (dev, devFlag);
 	}
       break;
     case 'F':

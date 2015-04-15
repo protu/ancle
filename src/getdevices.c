@@ -42,10 +42,10 @@
  */
 
 static Device *
-finddevices (Device *device)
+finddevices (Device *device, flag *deviceFlag)
 {
 
-  char *request = soapSearch (device);
+  char *request = soapSearch (device, deviceFlag);
   device = NULL;
 
   struct MemoryStruct response;
@@ -91,10 +91,10 @@ finddevices (Device *device)
  */
 
 int
-getdevices (Device *device)
+getdevices (Device *device, flag *deviceFlag)
 {
   Device *listdevices = NULL;
-  if ((listdevices = finddevices (device)))
+  if ((listdevices = finddevices (device, deviceFlag)))
     {
       printDevice (listdevices);
       freeDevice (listdevices);
@@ -183,7 +183,7 @@ int
 deldevices (Device *device)
 {
   Device *listdevices = NULL;
-  listdevices = finddevices (device);
+  listdevices = finddevices (device, NULL);
   if (listdevices)
     {
       printf ("Are you sure, you wan't to delete %d device(s)? (y/N):",
@@ -332,7 +332,7 @@ int
 flagdevices (Device *device, flag *deviceFlag)
 {
   Device *listdevices = NULL;
-  listdevices = finddevices (device);
+  listdevices = finddevices (device, NULL);
   if (listdevices)
     {
       Device *firstDev;

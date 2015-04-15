@@ -22,7 +22,7 @@
  * @file ancle.h
  * @brief main header file for ANCLE
  *
- * File contains funcion, globals, definitions  and macros for Ancle program
+ * File contains function, globals, definitions  and macros for Ancle program
  */
 
 #ifndef ANCLE_DEF
@@ -55,7 +55,7 @@ struct MemoryStruct {
  * Basic device structure
  *
  * Maximum string size (without null) is 64 bytes for every
- * member of the structure exept oui which is 6
+ * member of the structure except oui which is 6
  *
  **/
 typedef struct DeviceStruct {
@@ -104,7 +104,7 @@ extern int yes;
  **/
 
 /* getdevices */
-int getdevices(Device *device);
+int getdevices(Device *device, flag *deviceFlag);
 int deldevices(Device *device);
 int regdevice(Device *device);
 int flagdevices(Device *device, flag *deviceFlag);
@@ -115,7 +115,7 @@ int callCurl(char *request, struct MemoryStruct *response);
 
 /* parseResponse */
 
-char *soapSearch(DevicePtr dev);
+char *soapSearch(DevicePtr dev, flagPtr flp);
 char *soapRegister(DevicePtr dev);
 char *soapDelete(DevicePtr dev);
 int totalRecords(char * response);
