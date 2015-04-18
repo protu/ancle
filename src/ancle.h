@@ -118,6 +118,7 @@ int callCurl(char *request, struct MemoryStruct *response);
 char *soapSearch(DevicePtr dev, flagPtr flp);
 char *soapRegister(DevicePtr dev);
 char *soapDelete(DevicePtr dev);
+char *soapAddFlag (DevicePtr dev, flagPtr flp);
 int totalRecords(char * response);
 Device *devicesFound(char *response, int total);
 void freeDevice(Device *deviceList);

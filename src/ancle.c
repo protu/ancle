@@ -298,8 +298,5 @@ main (int argc, char **argv)
   if ((serverdata = setACS ()))
     freeACS (serverdata);
 
-  free (dev);
-  dev = NULL;
-
   return 0;
 }
