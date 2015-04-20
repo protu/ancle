@@ -183,10 +183,10 @@ rmDevices (Device *deviceList)
  */
 
 int
-deldevices (Device *device)
+deldevices (Device *device, flag *deviceFlag)
 {
   Device *listdevices = NULL;
-  listdevices = finddevices (device, NULL);
+  listdevices = finddevices (device, deviceFlag);
   if (listdevices)
     {
       printf ("Are you sure, you wan't to delete %d device(s)? (y/N):",

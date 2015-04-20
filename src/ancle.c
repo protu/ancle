@@ -248,7 +248,7 @@ main (int argc, char **argv)
 	}
       else
 	{
-	  deldevices (dev);
+	  deldevices (dev, devFlag);
 	}
       break;
     case 'S':

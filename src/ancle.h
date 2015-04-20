@@ -105,7 +105,7 @@ extern int yes;
 
 /* getdevices */
 int getdevices(Device *device, flag *deviceFlag);
-int deldevices(Device *device);
+int deldevices(Device *device, flag *deviceFlag);
 int regdevice(Device *device);
 int flagdevices(Device *device, flag *deviceFlag);
 
