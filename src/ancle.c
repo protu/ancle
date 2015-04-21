@@ -151,7 +151,7 @@ main (int argc, char **argv)
       switch (c)
 	{
 	case 'V':
-	  printf ("ancle 0.0.2a\n");
+	  printf ("ancle 0.0.2\n");
 	  return 0;
 	case 'h':
 	  print_help ();
@@ -209,11 +209,10 @@ main (int argc, char **argv)
       return 1;
     }
 
-  if (action)
-    printf ("Using ACS URL: %s\n\n", setACS ()->url);
+  printf ("Using ACS URL: %s\n\n", setACS ()->url);
 
   /*
-   * Check what action is defined and issue it
+   * Check what action is defined and issue it. If no action is set, assume search operation.
    */
 
   switch (action)
@@ -291,8 +290,21 @@ main (int argc, char **argv)
 	}
       break;
     default:
-      puts ("No action requested!");
-      print_help ();
+      if (dev->productclass == NULL && dev->serialnumber == NULL
+	  && dev->oui == NULL && dev->description == NULL)
+	{
+	  printf (
+	      "OUI, Product Class, Description or Serial Number must be specified\n");
+	  printf ("OUI: %s\n", dev->oui);
+	  printf ("Product class: %s\n", dev->productclass);
+	  printf ("Serial Number: %s\n", dev->serialnumber);
+	  printf ("Description: %s\n", dev->description);
+	  return 0;
+	}
+      else
+	{
+	  getdevices (dev, devFlag);
+	}
     }
 
   if ((serverdata = setACS ()))
