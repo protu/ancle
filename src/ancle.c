@@ -307,6 +307,11 @@ main (int argc, char **argv)
 	}
     }
 
+  free (dev);
+  dev = NULL;
+  free (devFlag);
+  devFlag = NULL;
+
   if ((serverdata = setACS ()))
     freeACS (serverdata);
 

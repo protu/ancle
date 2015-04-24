@@ -48,6 +48,12 @@ int callCurl(char *request, struct MemoryStruct *response)
 {
 	int c;
 
+	if (verbose)
+	{
+	  printf ("%s\n", "Request:");
+	  printf ("%s\n", request);
+	}
+
 	acs *serverdata = NULL;
 	if ((serverdata=setACS()) == NULL)
 	{

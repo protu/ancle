@@ -42,14 +42,11 @@
  */
 
 static Device *
-finddevices (Device *device, flag *deviceFlag)
+finddevices (Device *device, flag *deviceFlag, long recordStart)
 {
 
-  char *request = soapSearch (device, deviceFlag);
-  free(device);
-  device = NULL;
-  free(deviceFlag);
-  deviceFlag = NULL;
+  char *request = soapSearch (device, deviceFlag, recordStart);
+
 
   struct MemoryStruct response;
   response.memory = malloc (1);
@@ -68,13 +65,14 @@ finddevices (Device *device, flag *deviceFlag)
     }
 
   char *responsePtr = response.memory;
-  int total;
+  unsigned long total;
 
   if (verbose)
     printf ("Response:\n%s\n", responsePtr);
 
   total = totalRecords (responsePtr);
-  printf ("Total records: %d\n", total);
+  if (recordStart == 1)
+    printf ("Total records: %lu\n", total);
   Device *listdevices = NULL;
 
   if (total != 0)
@@ -97,11 +95,20 @@ int
 getdevices (Device *device, flag *deviceFlag)
 {
   Device *listdevices = NULL;
-  if ((listdevices = finddevices (device, deviceFlag)))
-    {
-      printDevice (listdevices);
-      freeDevice (listdevices);
-    }
+  long total = 0L;
+  long recordStart = 0L;
+
+  while (total >= recordStart)
+    if ((listdevices = finddevices (device, deviceFlag, recordStart)))
+      {
+	printDevice (listdevices, recordStart);
+	freeDevice (listdevices);
+	listdevices = NULL;
+
+	total = totalRecords (NULL);
+	recordStart += MAX_REC;
+      }
+
   return 0;
 }
 
@@ -186,10 +193,10 @@ int
 deldevices (Device *device, flag *deviceFlag)
 {
   Device *listdevices = NULL;
-  listdevices = finddevices (device, deviceFlag);
+  listdevices = finddevices (device, deviceFlag, 1L);
   if (listdevices)
     {
-      printf ("Are you sure, you wan't to delete %d device(s)? (y/N):",
+      printf ("Are you sure, you wan't to delete %lu device(s)? (y/N):",
 	      totalRecords (NULL));
       int c = 0;
 
@@ -335,7 +342,7 @@ int
 flagdevices (Device *device, flag *deviceFlag)
 {
   Device *listdevices = NULL;
-  listdevices = finddevices (device, NULL);
+  listdevices = finddevices (device, NULL, 1L);
   if (listdevices)
     {
       Device *firstDev;

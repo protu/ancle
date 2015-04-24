@@ -53,13 +53,14 @@ freeDevice (Device * deviceList)
 }
 
 void
-printDevice (Device * deviceList)
+printDevice (Device * deviceList, long recordStart)
 {
-  int i = 0;
-  printf ("\n--------------------------------------------------------------------------------\n");
+  long i = recordStart;
+  if(recordStart == 1L)
+    printf ("\n--------------------------------------------------------------------------------\n");
   while (deviceList->oui)
     {
-	  printf ("%d.\n", ++i);
+	  printf ("%lu.\n", ++recordStart);
       printf ("  OUI:           %s\n", deviceList->oui);
       printf ("  Product class: %s\n", deviceList->productclass);
       printf ("  Serial:        %s\n", deviceList->serialnumber);
@@ -76,7 +77,7 @@ printDevice (Device * deviceList)
  * last paresed, nuber of devies
  */
 
-int
+unsigned long
 totalRecords (char *response)
 {
 
@@ -269,7 +270,7 @@ parseDevices (xmlDoc * doc, xmlNode * a_node, Device * deviceList)
 }
 
 Device *
-devicesFound (char *response, int total)
+devicesFound (char *response, unsigned long total)
 {
   Device *deviceList = NULL;
   xmlNodePtr curNode;
