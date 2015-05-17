@@ -47,7 +47,6 @@ finddevices (Device *device, flag *deviceFlag, long recordStart)
 
   char *request = soapSearch (device, deviceFlag, recordStart);
 
-
   struct MemoryStruct response;
   response.memory = malloc (1);
   response.size = 0;
@@ -193,11 +192,12 @@ int
 deldevices (Device *device, flag *deviceFlag)
 {
   Device *listdevices = NULL;
-  listdevices = finddevices (device, deviceFlag, 1L);
+  unsigned long recordStart = 0L;
+  listdevices = finddevices (device, deviceFlag, recordStart);
+  unsigned long total = totalRecords (NULL);
   if (listdevices)
     {
-      printf ("Are you sure, you wan't to delete %lu device(s)? (y/N):",
-	      totalRecords (NULL));
+      printf ("Are you sure, you want to delete %lu device(s)? (y/N):", total);
       int c = 0;
 
       if (yes)
@@ -209,10 +209,16 @@ deldevices (Device *device, flag *deviceFlag)
 	c = getchar ();
 
       if (c == (int) 'y' || c == (int) 'Y')
-	{
-	  rmDevices (listdevices);
-	  freeDevice (listdevices);
-	}
+	while (total > recordStart)
+	  {
+	    rmDevices (listdevices);
+	    freeDevice (listdevices);
+	    recordStart += MAX_REC;
+	    if (total > recordStart)
+	      {
+		listdevices = finddevices (device, deviceFlag, recordStart);
+	      }
+	  }
       else
 	printf ("Aborting!\n");
 
@@ -342,7 +348,7 @@ int
 flagdevices (Device *device, flag *deviceFlag)
 {
   Device *listdevices = NULL;
-  listdevices = finddevices (device, NULL, 1L);
+  listdevices = finddevices (device, NULL, 0L);
   if (listdevices)
     {
       Device *firstDev;

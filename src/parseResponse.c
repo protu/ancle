@@ -74,7 +74,7 @@ printDevice (Device * deviceList, long recordStart)
  * Function will parse number of devices from
  * given SOAP response.
  * If response is set to NULL, then it will return 
- * last paresed, nuber of devies
+ * last parsed, number of devices
  */
 
 unsigned long
