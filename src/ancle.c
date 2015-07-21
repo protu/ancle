@@ -114,6 +114,9 @@ main (int argc, char **argv)
   dev->oui = NULL;
   dev->description = NULL;
 
+  devFlag->name = NULL;
+  devFlag->value = NULL;
+
   static struct option long_options[] =
     {
       { "version", no_argument, 0, 'V' },
