@@ -335,7 +335,7 @@ int
 flagdevices (Device *device, flag *deviceFlag)
 {
   Device *listdevices = NULL;
-  listdevices = finddevices (device, NULL);
+  listdevices = finddevices (device, deviceFlag);
   if (listdevices)
     {
       Device *firstDev;
