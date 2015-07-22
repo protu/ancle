@@ -313,5 +313,23 @@ main (int argc, char **argv)
   if ((serverdata = setACS ()))
     freeACS (serverdata);
 
+  if (dev)
+    {
+      dev->description = NULL;
+      dev->oui = NULL;
+      dev->productclass = NULL;
+      dev->serialnumber = NULL;
+      free(dev);
+      dev = NULL;
+    }
+
+  if (devFlag)
+    {
+      devFlag->name = NULL;
+      devFlag->value = NULL;
+      free(devFlag);
+      devFlag = NULL;
+    }
+
   return 0;
 }

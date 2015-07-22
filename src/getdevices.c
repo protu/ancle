@@ -46,10 +46,6 @@ finddevices (Device *device, flag *deviceFlag)
 {
 
   char *request = soapSearch (device, deviceFlag);
-  free(device);
-  device = NULL;
-  free(deviceFlag);
-  deviceFlag = NULL;
 
   struct MemoryStruct response;
   response.memory = malloc (1);
@@ -335,7 +331,25 @@ int
 flagdevices (Device *device, flag *deviceFlag)
 {
   Device *listdevices = NULL;
-  listdevices = finddevices (device, deviceFlag);
+
+  /*
+   * Create empty flag for searching devices
+   */
+  flag *searchFlag;
+  if ((searchFlag = malloc (sizeof(flag))) == NULL)
+    {
+      fprintf (stderr, "Not enough memory\n");
+      return 1;
+    }
+
+  searchFlag->name = NULL;
+  searchFlag->value = NULL;
+
+  listdevices = finddevices (device, searchFlag );
+
+  free(searchFlag);
+  searchFlag = NULL;
+
   if (listdevices)
     {
       Device *firstDev;
