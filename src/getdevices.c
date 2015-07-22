@@ -47,6 +47,9 @@ finddevices (Device *device, flag *deviceFlag)
 
   char *request = soapSearch (device, deviceFlag);
 
+  if (verbose)
+    printf ("Request:\n%s\n", request);
+
   struct MemoryStruct response;
   response.memory = malloc (1);
   response.size = 0;
