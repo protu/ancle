@@ -45,11 +45,7 @@ static Device *
 finddevices (Device *device, flag *deviceFlag, long recordStart)
 {
 
-<<<<<<< HEAD
-  char *request = soapSearch (device, deviceFlag);
-=======
   char *request = soapSearch (device, deviceFlag, recordStart);
->>>>>>> paginate
 
   if (verbose)
     printf ("Request:\n%s\n", request);
@@ -361,10 +357,7 @@ int
 flagdevices (Device *device, flag *deviceFlag)
 {
   Device *listdevices = NULL;
-<<<<<<< HEAD
-=======
   listdevices = finddevices (device, deviceFlag, 0L);
->>>>>>> paginate
 
   /*
    * Create empty flag for searching devices
@@ -379,15 +372,9 @@ flagdevices (Device *device, flag *deviceFlag)
   searchFlag->name = NULL;
   searchFlag->value = NULL;
 
-<<<<<<< HEAD
-  listdevices = finddevices (device, searchFlag );
-
-  free(searchFlag);
-=======
   listdevices = finddevices (device, searchFlag, 0L);
 
   free (searchFlag);
->>>>>>> paginate
   searchFlag = NULL;
 
   if (listdevices)
