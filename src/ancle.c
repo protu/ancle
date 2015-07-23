@@ -154,7 +154,7 @@ main (int argc, char **argv)
       switch (c)
 	{
 	case 'V':
-	  printf ("ancle 0.0.2\n");
+	  printf ("ancle 0.1.0b\n");
 	  return 0;
 	case 'h':
 	  print_help ();
@@ -310,13 +310,26 @@ main (int argc, char **argv)
 	}
     }
 
-  free (dev);
-  dev = NULL;
-  free (devFlag);
-  devFlag = NULL;
-
   if ((serverdata = setACS ()))
     freeACS (serverdata);
+
+  if (dev)
+    {
+      dev->description = NULL;
+      dev->oui = NULL;
+      dev->productclass = NULL;
+      dev->serialnumber = NULL;
+      free(dev);
+      dev = NULL;
+    }
+
+  if (devFlag)
+    {
+      devFlag->name = NULL;
+      devFlag->value = NULL;
+      free(devFlag);
+      devFlag = NULL;
+    }
 
   return 0;
 }

@@ -47,6 +47,9 @@ finddevices (Device *device, flag *deviceFlag, long recordStart)
 
   char *request = soapSearch (device, deviceFlag, recordStart);
 
+  if (verbose)
+    printf ("Request:\n%s\n", request);
+
   struct MemoryStruct response;
   response.memory = malloc (1);
   response.size = 0;
@@ -97,16 +100,19 @@ getdevices (Device *device, flag *deviceFlag)
   long total = 0L;
   long recordStart = 0L;
 
-  while (total >= recordStart)
-    if ((listdevices = finddevices (device, deviceFlag, recordStart)))
-      {
-	printDevice (listdevices, recordStart);
-	freeDevice (listdevices);
-	listdevices = NULL;
+  do
+    {
+      if ((listdevices = finddevices (device, deviceFlag, recordStart)))
+	{
+	  printDevice (listdevices, recordStart);
+	  freeDevice (listdevices);
+	  listdevices = NULL;
 
-	total = totalRecords (NULL);
-	recordStart += MAX_REC;
-      }
+	  total = totalRecords (NULL);
+	  recordStart += MAX_REC;
+	}
+    }
+  while (total > recordStart);
 
   return 0;
 }
@@ -167,22 +173,22 @@ rmDevice (Device *device)
  * Call function to delete each individual device in the list.
  * I will also add nubering in front of each device
  * @ param deviceList pointer to array of devices
+ * @ param recordStart is start position for numbering in case MAX_REC is smaller than number of devices
  */
 
 void
-rmDevices (Device *deviceList)
+rmDevices (Device *deviceList, unsigned long recordStart)
 {
-  int i = 0;
 
   while (deviceList->oui)
     {
-      printf ("%d. ", ++i);
+      printf ("%lu. ", ++recordStart);
       rmDevice (deviceList++);
     }
 }
 
 /**
- * Delete devices based on search paramter
+ * Delete devices based on search parameter
  * delete is yet not completed and will act as
  * getdevices function
  * @param device reference device that will used as search pattern
@@ -209,16 +215,19 @@ deldevices (Device *device, flag *deviceFlag)
 	c = getchar ();
 
       if (c == (int) 'y' || c == (int) 'Y')
-	while (total > recordStart)
+	do
 	  {
-	    rmDevices (listdevices);
+	    rmDevices (listdevices, recordStart);
 	    freeDevice (listdevices);
 	    recordStart += MAX_REC;
 	    if (total > recordStart)
 	      {
-		listdevices = finddevices (device, deviceFlag, recordStart);
+		// recordStart is zero because we have already deleted
+		// previous devices
+		listdevices = finddevices (device, deviceFlag, 0L);
 	      }
 	  }
+	while (total > recordStart);
       else
 	printf ("Aborting!\n");
 
@@ -349,6 +358,25 @@ flagdevices (Device *device, flag *deviceFlag)
 {
   Device *listdevices = NULL;
   listdevices = finddevices (device, deviceFlag, 0L);
+
+  /*
+   * Create empty flag for searching devices
+   */
+  flag *searchFlag;
+  if ((searchFlag = malloc (sizeof(flag))) == NULL)
+    {
+      fprintf (stderr, "Not enough memory\n");
+      return 1;
+    }
+
+  searchFlag->name = NULL;
+  searchFlag->value = NULL;
+
+  listdevices = finddevices (device, searchFlag, 0L);
+
+  free (searchFlag);
+  searchFlag = NULL;
+
   if (listdevices)
     {
       Device *firstDev;
