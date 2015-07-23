@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License along with
  * Ancle.  If not, see <http://www.gnu.org/licenses/>.
  *
-*/
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,8 +34,7 @@ docToChar (xmlDocPtr doc)
   if (buf)
     {
       xmlSaveCtxtPtr ctx = xmlSaveToBuffer (buf, "UTF-8",
-					    XML_SAVE_FORMAT |
-					    XML_SAVE_NO_DECL);
+					    XML_SAVE_FORMAT | XML_SAVE_NO_DECL);
       if (ctx)
 	{
 	  xmlSaveDoc (ctx, doc);
@@ -63,17 +62,17 @@ registerdevice (xmlNodePtr registerdevice, DevicePtr dev)
   xmlAddChild (registerdevice, deviceID);
   xmlNewChild (deviceID, NULL, BAD_CAST "OUI", BAD_CAST dev->oui);
   xmlNewChild (deviceID, NULL, BAD_CAST "ProductClass",
-	       BAD_CAST dev->productclass);
+  BAD_CAST dev->productclass);
   xmlNewChild (deviceID, NULL, BAD_CAST "SerialNumber",
-	       BAD_CAST dev->serialnumber);
+  BAD_CAST dev->serialnumber);
 
   if (dev->description)
     {
-      xmlNodePtr
-	deviceProperties = xmlNewNode (NULL, BAD_CAST "DeviceProperties");
+      xmlNodePtr deviceProperties = xmlNewNode (NULL,
+						BAD_CAST "DeviceProperties");
       xmlAddChild (registerdevice, deviceProperties);
       xmlNewChild (deviceProperties, NULL, BAD_CAST "Description",
-		   BAD_CAST dev->description);
+      BAD_CAST dev->description);
     }
 
   return (0);
@@ -86,9 +85,9 @@ deletedevice (xmlNodePtr registerdevice, DevicePtr dev)
   xmlAddChild (registerdevice, deviceID);
   xmlNewChild (deviceID, NULL, BAD_CAST "OUI", BAD_CAST dev->oui);
   xmlNewChild (deviceID, NULL, BAD_CAST "ProductClass",
-	       BAD_CAST dev->productclass);
+  BAD_CAST dev->productclass);
   xmlNewChild (deviceID, NULL, BAD_CAST "SerialNumber",
-	       BAD_CAST dev->serialnumber);
+  BAD_CAST dev->serialnumber);
 
   return (0);
 }
@@ -100,9 +99,9 @@ setDeviceFlag (xmlNodePtr registerdevice, DevicePtr dev, flagPtr flag)
   xmlAddChild (registerdevice, deviceID);
   xmlNewChild (deviceID, NULL, BAD_CAST "OUI", BAD_CAST dev->oui);
   xmlNewChild (deviceID, NULL, BAD_CAST "ProductClass",
-	       BAD_CAST dev->productclass);
+  BAD_CAST dev->productclass);
   xmlNewChild (deviceID, NULL, BAD_CAST "SerialNumber",
-	       BAD_CAST dev->serialnumber);
+  BAD_CAST dev->serialnumber);
 
   xmlNodePtr flagValueList = xmlNewNode (NULL, BAD_CAST "FlagValueList");
   xmlAddChild (registerdevice, flagValueList);
@@ -116,7 +115,7 @@ setDeviceFlag (xmlNodePtr registerdevice, DevicePtr dev, flagPtr flag)
 }
 
 static int
-customsearch (xmlNodePtr customsearch, DevicePtr dev, flagPtr flp)
+customsearch (xmlNodePtr customsearch, DevicePtr dev, flagPtr flp, long recordStart)
 {
 // Select fields to display
   xmlNodePtr selectfields = xmlNewNode (NULL, BAD_CAST "SelectFields");
@@ -124,13 +123,11 @@ customsearch (xmlNodePtr customsearch, DevicePtr dev, flagPtr flp)
   xmlNodePtr selectfield = NULL;
   int i;
   const char *devParams[DEV_PARAM_SIZE] =
-    { "OUI", "SerialNumber", "ProductClass",
-    "Description"
-  };
+    { "OUI", "SerialNumber", "ProductClass", "Description" };
   for (i = 0; i < DEV_PARAM_SIZE; i++)
     {
-      selectfield =
-	xmlNewChild (selectfields, NULL, BAD_CAST "SelectField", NULL);
+      selectfield = xmlNewChild (selectfields, NULL, BAD_CAST "SelectField",
+				 NULL);
       xmlNewChild (selectfield, NULL, BAD_CAST "Type", BAD_CAST "Device");
       xmlNewChild (selectfield, NULL, BAD_CAST "Name", BAD_CAST devParams[i]);
     }
@@ -177,7 +174,7 @@ customsearch (xmlNodePtr customsearch, DevicePtr dev, flagPtr flp)
     }
   if (flp->name)
     {
-      required = xmlNewChild(criteria, NULL, BAD_CAST "Required", NULL);
+      required = xmlNewChild (criteria, NULL, BAD_CAST "Required", NULL);
       any = xmlNewChild (required, NULL, BAD_CAST "Any", NULL);
       xmlNewChild (any, NULL, BAD_CAST "Type", BAD_CAST "Flag");
       xmlNewChild (any, NULL, BAD_CAST "Name", BAD_CAST flp->name);
@@ -185,6 +182,34 @@ customsearch (xmlNodePtr customsearch, DevicePtr dev, flagPtr flp)
     }
 
   xmlAddChild (customsearch, criteria);
+
+  char * recStart = NULL;
+  if ((recStart = malloc (12 * sizeof(char))) == NULL)
+    {
+      fprintf (stderr, "Not enough memory\n");
+      return 1;
+    }
+
+  char * recCount = NULL;
+  if ((recCount = malloc (12 * sizeof(char))) == NULL)
+    {
+      fprintf (stderr, "Not enough memory\n");
+      return 1;
+    }
+
+  sprintf(recStart, "%ld", recordStart);
+  sprintf(recCount, "%ld", MAX_REC);
+
+  xmlNodePtr pagination = xmlNewNode (NULL, BAD_CAST "Pagination");
+  xmlNewChild (pagination, NULL, BAD_CAST "RecordStart", BAD_CAST recStart);
+  xmlNewChild(pagination, NULL, BAD_CAST "RecordCount", BAD_CAST recCount );
+
+  free(recStart);
+  free(recCount);
+  recStart = NULL;
+  recCount = NULL;
+
+  xmlAddChild(customsearch, pagination);
 
   return (0);
 }
@@ -198,10 +223,9 @@ soapStart ()
   doc = xmlNewDoc (BAD_CAST "1.0");
   envelope = xmlNewNode (NULL, BAD_CAST "Envelope");
 
-  xmlNsPtr
-    nssoapenv =
-    xmlNewNs (envelope, BAD_CAST "http://schemas.xmlsoap.org/soap/envelope/",
-	      BAD_CAST "soapenv");
+  xmlNsPtr nssoapenv = xmlNewNs (
+      envelope, BAD_CAST "http://schemas.xmlsoap.org/soap/envelope/",
+      BAD_CAST "soapenv");
   xmlSetNs (envelope, nssoapenv);
 
   xmlDocSetRootElement (doc, envelope);
@@ -213,16 +237,14 @@ soapStart ()
 }
 
 static void
-addSearch (xmlDocPtr doc, DevicePtr dev, flagPtr flp)
+addSearch (xmlDocPtr doc, DevicePtr dev, flagPtr flp, long recordStart)
 {
   xmlNodePtr envelope = xmlDocGetRootElement (doc);
   xmlNodePtr body = xmlLastElementChild (envelope);
-  xmlNsPtr
-    nsnbi =
-    xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4",
-	      BAD_CAST "nbi");
+  xmlNsPtr nsnbi = xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4",
+  BAD_CAST "nbi");
   xmlNodePtr sd = xmlNewNode (nsnbi, BAD_CAST "CustomSearch");
-  customsearch (sd, dev, flp);
+  customsearch (sd, dev, flp, recordStart);
   if (sd)
     xmlAddChild (body, sd);
   else
@@ -234,10 +256,8 @@ addRegister (xmlDocPtr doc, DevicePtr dev)
 {
   xmlNodePtr envelope = xmlDocGetRootElement (doc);
   xmlNodePtr body = xmlLastElementChild (envelope);
-  xmlNsPtr
-    nsnbi =
-    xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4",
-	      BAD_CAST "nbi");
+  xmlNsPtr nsnbi = xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4",
+  BAD_CAST "nbi");
   xmlNodePtr sd = xmlNewNode (nsnbi, BAD_CAST "RegisterDevice");
   registerdevice (sd, dev);
   xmlAddChild (body, sd);
@@ -248,10 +268,8 @@ addDelete (xmlDocPtr doc, DevicePtr dev)
 {
   xmlNodePtr envelope = xmlDocGetRootElement (doc);
   xmlNodePtr body = xmlLastElementChild (envelope);
-  xmlNsPtr
-	nsnbi =
-	xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4",
-			  BAD_CAST "nbi");
+  xmlNsPtr nsnbi = xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4",
+  BAD_CAST "nbi");
   xmlNodePtr sd = xmlNewNode (nsnbi, BAD_CAST "DeleteDevice");
   deletedevice (sd, dev);
   xmlAddChild (body, sd);
@@ -262,20 +280,19 @@ addSetFlag (xmlDocPtr doc, DevicePtr dev, flagPtr flag)
 {
   xmlNodePtr envelope = xmlDocGetRootElement (doc);
   xmlNodePtr body = xmlLastElementChild (envelope);
-  xmlNsPtr
-	nsnbi =
-	xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4", BAD_CAST "nbi");
+  xmlNsPtr nsnbi = xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4",
+			     BAD_CAST "nbi");
   xmlNodePtr sd = xmlNewNode (nsnbi, BAD_CAST "SetDeviceFlags");
-  setDeviceFlag(sd, dev, flag);
+  setDeviceFlag (sd, dev, flag);
   xmlAddChild (body, sd);
 }
 
 char *
-soapSearch (DevicePtr dev, flagPtr flp)
+soapSearch (DevicePtr dev, flagPtr flp, long recordStart)
 {
   xmlDocPtr doc = NULL;
   doc = soapStart ();
-  addSearch (doc, dev, flp);
+  addSearch (doc, dev, flp, recordStart);
   return docToChar (doc);
 }
 
@@ -301,8 +318,8 @@ char *
 soapAddFlag (DevicePtr dev, flagPtr flp)
 {
   xmlDocPtr doc = NULL;
-  doc = soapStart();
-  addSetFlag(doc, dev, flp);
+  doc = soapStart ();
+  addSetFlag (doc, dev, flp);
   return docToChar (doc);
 }
 

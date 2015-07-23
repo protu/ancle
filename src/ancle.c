@@ -154,7 +154,7 @@ main (int argc, char **argv)
       switch (c)
 	{
 	case 'V':
-	  printf ("ancle 0.0.2\n");
+	  printf ("ancle 0.1.0b\n");
 	  return 0;
 	case 'h':
 	  print_help ();

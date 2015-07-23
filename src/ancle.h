@@ -29,8 +29,6 @@
 #define ANCLE_DEF
 #include <libxml/parser.h>
 
-#define ACS_NBI_URL "http://l01acslab.ot.hr/nbi.php"
-#define ACS_NBI_USERPWD "nbiuser:nbipass"
 
 /**
  * define user's configuration file
@@ -41,6 +39,11 @@
  */
 #define GLOBAL_CONFIG "/etc/anclerc"
 
+/**
+ * define maximum number of records to
+ * be pulled at the same time
+ */
+#define MAX_REC 1000L
 
 /**
  * Storage for retreived SOAP request
@@ -115,14 +118,14 @@ int callCurl(char *request, struct MemoryStruct *response);
 
 /* parseResponse */
 
-char *soapSearch(DevicePtr dev, flagPtr flp);
+char *soapSearch(DevicePtr dev, flagPtr flp, long recordStart);
 char *soapRegister(DevicePtr dev);
 char *soapDelete(DevicePtr dev);
 char *soapAddFlag (DevicePtr dev, flagPtr flp);
-int totalRecords(char * response);
-Device *devicesFound(char *response, int total);
+unsigned long totalRecords(char * response);
+Device *devicesFound(char *response, unsigned long total);
 void freeDevice(Device *deviceList);
-void printDevice(Device *deviceList);
+void printDevice(Device *deviceList, long recordStart);
 xmlChar *createResult(char * response);
 
 /* config */
