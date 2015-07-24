@@ -79,7 +79,7 @@ registerdevice (xmlNodePtr registerdevice, DevicePtr dev)
 }
 
 static int
-deletedevice (xmlNodePtr registerdevice, DevicePtr dev)
+deviceNode (xmlNodePtr registerdevice, DevicePtr dev)
 {
   xmlNodePtr deviceID = xmlNewNode (NULL, BAD_CAST "DeviceID");
   xmlAddChild (registerdevice, deviceID);
@@ -271,7 +271,7 @@ addDelete (xmlDocPtr doc, DevicePtr dev)
   xmlNsPtr nsnbi = xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4",
   BAD_CAST "nbi");
   xmlNodePtr sd = xmlNewNode (nsnbi, BAD_CAST "DeleteDevice");
-  deletedevice (sd, dev);
+  deviceNode (sd, dev);
   xmlAddChild (body, sd);
 }
 
@@ -287,6 +287,17 @@ addSetFlag (xmlDocPtr doc, DevicePtr dev, flagPtr flag)
   xmlAddChild (body, sd);
 }
 
+static void
+addConnectioReq (xmlDocPtr doc, DevicePtr dev)
+{
+  xmlNodePtr envelope = xmlDocGetRootElement (doc);
+  xmlNodePtr body = xmlLastElementChild (envelope);
+  xmlNsPtr nsnbi = xmlNewNs (envelope, BAD_CAST "urn:www.acslite.com/nbi:1.4", BAD_CAST "nbi");
+  xmlNodePtr sd = xmlNewNode (nsnbi, BAD_CAST "SendConnectionRequest");
+  deviceNode(sd, dev);
+  xmlNewChild(sd, NULL, BAD_CAST "TimeoutSeconds", BAD_CAST "0");
+  xmlAddChild (body, sd);
+}
 char *
 soapSearch (DevicePtr dev, flagPtr flp, long recordStart)
 {
@@ -320,6 +331,15 @@ soapAddFlag (DevicePtr dev, flagPtr flp)
   xmlDocPtr doc = NULL;
   doc = soapStart ();
   addSetFlag (doc, dev, flp);
+  return docToChar (doc);
+}
+
+char *
+soapConnectionReq (DevicePtr dev)
+{
+  xmlDocPtr doc = NULL;
+  doc = soapStart();
+  addConnectioReq(doc, dev);
   return docToChar (doc);
 }
 

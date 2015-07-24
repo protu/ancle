@@ -66,7 +66,8 @@ Commands:\n \
 -R --register\tregister device\n \
 -S --search\tsearch device\n \
 -D --delete\tdelete device\n \
--F --flag\tflag operations\n\n \
+-F --flag\tflag operations\n \
+-C --conn-req\tsend connection request\n\n \
 Options:\n \
 -o --oui\t\tdevice's object unique identifier\n \
 -p --product-class \tdevices's product class\n \
@@ -124,6 +125,7 @@ main (int argc, char **argv)
       { "register", no_argument, 0, 'R' },
       { "delete", no_argument, 0, 'D' },
       { "search", no_argument, 0, 'S' },
+      { "conn-req", no_argument, 0, 'C' },
       { "product-class", required_argument, 0, 'p' },
       { "serial-number", required_argument, 0, 's' },
       { "oui", required_argument, 0, 'o' },
@@ -146,7 +148,7 @@ main (int argc, char **argv)
 
   while (1)
     {
-      c = getopt_long (argc, argv, "VhRDSFn:v:yo:p:s:d:f:", long_options,
+      c = getopt_long (argc, argv, "VhRDSFCn:v:yo:p:s:d:f:", long_options,
 		       &option_index);
       if (c == -1)
 	break;
@@ -154,7 +156,7 @@ main (int argc, char **argv)
       switch (c)
 	{
 	case 'V':
-	  printf ("ancle 0.1.0b\n");
+	  printf ("ancle 0.2b\n");
 	  return 0;
 	case 'h':
 	  print_help ();
@@ -170,6 +172,9 @@ main (int argc, char **argv)
 	  break;
 	case 'F':
 	  action = 'F';
+	  break;
+	case 'C':
+	  action = 'C';
 	  break;
 	case 'f':
 	  userConfigFile = optarg;
@@ -253,21 +258,20 @@ main (int argc, char **argv)
 	  deldevices (dev, devFlag);
 	}
       break;
-    case 'S':
-      if (dev->productclass == NULL && dev->serialnumber == NULL
-	  && dev->oui == NULL && dev->description == NULL)
+    case 'C':
+      if (dev->productclass == NULL || dev->serialnumber == NULL
+	  || dev->oui == NULL)
 	{
 	  printf (
-	      "OUI, Product Class, Description or Serial Number must be specified\n");
+	      "OUI, Product Class, Description and Serial Number must be specified\n");
 	  printf ("OUI: %s\n", dev->oui);
 	  printf ("Product class: %s\n", dev->productclass);
 	  printf ("Serial Number: %s\n", dev->serialnumber);
-	  printf ("Description: %s\n", dev->description);
 	  return 0;
 	}
       else
 	{
-	  getdevices (dev, devFlag);
+	  sendConnectionReq(dev);
 	}
       break;
     case 'F':
@@ -292,6 +296,7 @@ main (int argc, char **argv)
 	  flagdevices (dev, devFlag);
 	}
       break;
+    case 'S':
     default:
       if (dev->productclass == NULL && dev->serialnumber == NULL
 	  && dev->oui == NULL && dev->description == NULL)

@@ -369,3 +369,44 @@ getnodeset (xmlDocPtr doc, const xmlChar * xpath)
 
   return result;
 }
+
+int
+parseConnectionReq (char *response, char *result)
+{
+  xmlDocPtr rspDoc = responseToDoc (response);
+  const xmlChar *xpathString = BAD_CAST "//AcceptedByDevice";
+
+  xmlChar *keyword = NULL;
+  xmlChar *errCode = NULL;
+  xmlChar *errDetail = NULL;
+
+
+  keyword = checkResult (rspDoc, xpathString);
+  if (keyword && strcmp((char *)keyword, "true") == 0)
+    {
+      sprintf(result, "%s", "Connection Request Sent");
+    }
+  else if (keyword && strcmp((char *)keyword, "false") == 0)
+    {
+      sprintf(result, "%s", "Connection Request Fail");
+    }
+  else
+    {
+      errCode = checkResult (rspDoc, BAD_CAST "//faultstring");
+      errDetail = checkResult (rspDoc, BAD_CAST "//detail");
+      sprintf(result, "Connection request failed with: %s: %s\n", (char *) errCode, (char *) errDetail);
+    }
+
+
+  xmlFreeDoc (rspDoc);
+  rspDoc = NULL;
+  xmlCleanupParser ();
+  xmlFree (keyword);
+  xmlFree (errCode);
+  xmlFree (errDetail);
+  keyword = NULL;
+  errCode = NULL;
+  errDetail = NULL;
+
+  return 0;
+}

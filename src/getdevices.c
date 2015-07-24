@@ -397,3 +397,52 @@ flagdevices (Device *device, flag *deviceFlag)
   return 0;
 }
 
+/*
+ * @brief Send connection request to device
+ * @param device structure
+ */
+
+int
+sendConnectionReq (Device *device)
+{
+  char *request = soapConnectionReq (device);
+
+  struct MemoryStruct response;
+  response.memory = malloc (1);
+  response.size = 0;
+
+  if (!callCurl (request, &response))
+    {
+      fprintf (stderr, "Curl returned NULL\n");
+      return 0;
+    }
+
+  if (request)
+    {
+      free (request);
+      request = NULL;
+    }
+
+  char *responsePtr = response.memory;
+  if (verbose)
+    printf ("Response:\n%s\n", responsePtr);
+
+  char * result;
+  if ((result = malloc (100 * sizeof(char))) == NULL)
+    {
+      fprintf (stderr, "Not enough memory\n");
+      return 1;
+    }
+
+  parseConnectionReq (responsePtr, result);
+  printf ("%s\n", result);
+
+  free (result);
+  result = NULL;
+  free (response.memory);
+  response.memory = NULL;
+  responsePtr = NULL;
+
+  return 0;
+}
+

@@ -111,6 +111,7 @@ int getdevices(Device *device, flag *deviceFlag);
 int deldevices(Device *device, flag *deviceFlag);
 int regdevice(Device *device);
 int flagdevices(Device *device, flag *deviceFlag);
+int sendConnectionReq (Device *device);
 
 /* callcurl */
 
@@ -122,11 +123,13 @@ char *soapSearch(DevicePtr dev, flagPtr flp, long recordStart);
 char *soapRegister(DevicePtr dev);
 char *soapDelete(DevicePtr dev);
 char *soapAddFlag (DevicePtr dev, flagPtr flp);
+char *soapConnectionReq(DevicePtr dev);
 unsigned long totalRecords(char * response);
 Device *devicesFound(char *response, unsigned long total);
 void freeDevice(Device *deviceList);
 void printDevice(Device *deviceList, long recordStart);
-xmlChar *createResult(char * response);
+xmlChar *createResult(char *response);
+int parseConnectionReq(char *response, char *result);
 
 /* config */
 
